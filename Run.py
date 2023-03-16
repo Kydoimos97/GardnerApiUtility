@@ -28,12 +28,12 @@ for file in del_list:
     print(f"Log file {file} deleted")
 
 # Coerce Out and Err to files
-# filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
-#     f"stdout{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
-# sys.stdout = open(filePath, 'w')
+filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
+    f"stdout{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
+sys.stdout = open(filePath, 'w')
 
-# filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
-#     f"stderr{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
-# sys.stderr = open(filePath, 'w')
+filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
+    f"stderr{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
+sys.stderr = open(filePath, 'w')
 
 initializer()
