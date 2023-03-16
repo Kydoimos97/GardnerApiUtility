@@ -59,7 +59,6 @@ class realtorCom:
 
         for key, value in self.__idDict.items():
             tempdf = pd.read_csv(self.__idDict[key]['link'], low_memory=False)
-            tempdf.to_csv(f"Realtor_{key}_History.csv")
 
             if key == "State":
                 self.dfState = tempdf
