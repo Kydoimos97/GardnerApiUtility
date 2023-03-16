@@ -3,7 +3,7 @@
 
 # Gardner API Utility
 
-![project logo](PaymentPredictorUtility/ExternalFiles/Logo.png)
+![project logo](Images/Screenshots/logo.jpg)
 
 A collection of data source api call utilities.
 
