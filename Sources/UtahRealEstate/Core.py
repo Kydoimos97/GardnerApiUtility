@@ -23,6 +23,20 @@ class UtahRealEstateInit:
     def __init__(self):
 
         # Class Variables
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up the initial state of the object.
+
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        The __createframe function
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.StandardStatus = None
         self.ListedOrModified = None
         self.dateStart = None
@@ -37,6 +51,23 @@ class UtahRealEstateInit:
     def __ShowGui(self, layout, text):
 
         # Create Window
+        """
+    The __ShowGui function is a helper function that creates the GUI window and displays it to the user.
+    It takes in two parameters: layout, which is a list of lists containing all of the elements for each row;
+    and text, which is a string containing what will be displayed as the title of the window. The __ShowGui
+    method then uses these parameters to create an instance of sg.Window with all its attributes set accordingly.
+
+    Args:
+        self: Refer to the current class instance
+        layout: Pass the layout of the window to be created
+        text: Set the title of the window
+
+    Returns:
+        A dictionary of values
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
@@ -61,6 +92,19 @@ class UtahRealEstateInit:
 
     @staticmethod
     def __CreateFrame():
+        """
+    The __CreateFrame function creates the GUI layout for the application.
+        The function returns a list of lists that contains all of the elements to be displayed in the window.
+        Each element is defined by its type and any additional parameters needed to define it.
+
+    Args:
+
+    Returns:
+        A list of lists, which is used to create the gui
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         sg.theme('Default1')
 
         line00 = [sg.HSeparator()]
@@ -120,6 +164,22 @@ class UtahRealEstateInit:
     def __SetValues(self, values):
 
         # Status
+        """
+    The __SetValues function is used to set the values of the variables that are used in the
+       __GetData function. The values are passed from a dictionary called 'values' which is created
+       by parsing through an XML file using ElementTree. This function also sets default values for
+       some of these variables if they were not specified in the XML file.
+
+    Args:
+        self: Represent the instance of the class
+        values: Pass the values from the gui to this function
+
+    Returns:
+        A dictionary with the following keys:
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.StandardStatus = values["-status-"]
 
         # Type
@@ -162,6 +222,20 @@ class UtahRealEstateMain:
     def __init__(self, siteClass):
 
         # Inherited from Class
+        """
+    The __init__ function is the first function that runs when an object of this class is created.
+    It sets up all the variables and functions needed for this class to work properly.
+
+    Args:
+        self: Represent the instance of the class
+        siteClass: Determine which site to pull data from
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.dataframe = None
         self.__batches = 0
         self.__siteClass = siteClass
@@ -194,6 +268,20 @@ class UtahRealEstateMain:
 
     def mainFunc(self):
 
+        """
+    The mainFunc function is the main function of this module. It will be called by the GUI when a user clicks on
+    the &quot;Run&quot; button in the GUI. The mainFunc function should contain all of your code for running your program, and it
+    should return a dataframe that contains all of the data you want to display in your final report.
+
+    Args:
+        self: Reference the object itself
+
+    Returns:
+        A dataframe
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         passFlag = False
 
         # Get Auth Key
@@ -233,6 +321,20 @@ class UtahRealEstateMain:
         FileSaver("ure", self.dataframe, self.__appendFile)
 
     def __ParameterCreator(self):
+        """
+    The __ParameterCreator function is used to create the filter string for the ReST API call.
+    The function takes in a siteClass object and extracts all of its parameters into a dictionary.
+    It then creates an appropriate filter string based on those parameters.
+
+    Args:
+        self: Bind the object to the class
+
+    Returns:
+        A string to be used as the parameter in the api call
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         filter_string = ""
 
         __Source_dict = {key: value for key, value in self.__siteClass.__dict__.items() if
@@ -266,6 +368,21 @@ class UtahRealEstateMain:
         self.__parameterString = filter_string
 
     def __getCount(self):
+        """
+    The __getCount function is used to determine the number of records that will be returned by the query.
+    This function is called when a user calls the count() method on a ReST object. The __getCount function uses
+    the $count parameter in OData to return only an integer value representing how many records would be returned
+    by the query.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        The number of records in the data set
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         __count_resp = None
 
         try:
@@ -288,6 +405,20 @@ class UtahRealEstateMain:
 
     def __getCountUI(self):
 
+        """
+    The __getCountUI function is a wrapper for the __getCount function.
+    It creates a progress window and updates it while the __getCount function runs.
+    The purpose of this is to keep the GUI responsive while running long processes.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A popupwrapped object
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         uiObj = PopupWrapped(text="Batch request running", windowType="progress", error=None)
 
         # Thread get Count to keep gui in mainloop

@@ -1,3 +1,25 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#
 import math
 from datetime import date
 
@@ -8,6 +30,22 @@ from API_Calls.Functions.DataFunc.DataSupportFunctions import StringToList
 
 
 def BatchCalculator(TotalRecords, Argument_Dict):
+
+    """
+The BatchCalculator function takes two arguments:
+    1. TotalRecords - the total number of records in the database
+    2. Argument_Dict - a dictionary containing all of the arguments passed to this function by the user
+
+Args:
+    TotalRecords: Determine the number of batches that will be needed to complete the query
+    Argument_Dict: Pass in the arguments that will be used to query the database
+
+Returns:
+    The total number of batches that will be made
+
+Doc Author:
+    Willem van der Schans, Trelent AI
+"""
     try:
         document_limit = Argument_Dict["size"]
     except:
@@ -19,6 +57,28 @@ def BatchCalculator(TotalRecords, Argument_Dict):
 class BatchProcessorConstructionMonitor:
 
     def __init__(self, RestDomain, NumBatches, ParameterDict, HeaderDict, ColumnSelection, valueObject):
+
+        """
+    The __init__ function is the constructor for a class. It is called when an object of that class
+    is created, and it sets up the attributes of that object. In this case, we are setting up our
+    object to have a dataframe attribute (which will be used to store all of our data), as well as
+    attributes for each parameter in our ReST call.
+
+    Args:
+        self: Represent the instance of the class
+        RestDomain: Specify the domain of the rest api
+        NumBatches: Determine how many batches of data to retrieve
+        ParameterDict: Pass in the parameters that will be used to make the api call
+        HeaderDict: Pass the header dictionary from the main function to this class
+        ColumnSelection: Determine which columns to pull from the api
+        valueObject: Pass in the value object that is used to determine what values are returned
+
+    Returns:
+        An object of the class
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.dataframe = None
         self.__numBatches = NumBatches
         self.__parameterDict = ParameterDict
@@ -33,9 +93,37 @@ class BatchProcessorConstructionMonitor:
 
 
     def FuncSelector(self):
+        """
+    The FuncSelector function is a function that takes the valueObject and passes it to the ConstructionMonitorProcessor function.
+    The ConstructionMonitorProcessor function then uses this valueObject to determine which of its functions should be called.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        The result of the constructionmonitorprocessor function
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.ConstructionMonitorProcessor(self.valueObject)
 
     def ConstructionMonitorProcessor(self, valueObject):
+        """
+    The ConstructionMonitorProcessor function will use requests to get data from
+       ConstructionMontior.com's ReST API and store it into a pandas DataFrame object called __df (which is local). This
+       process will be repeated until all of the data has been collected from ConstructionMonitor.com's ReST API, at which point __df will contain all
+
+    Args:
+        self: Represent the instance of the object itself
+        valueObject: Update the progress bar in the gui
+
+    Returns:
+        A dataframe
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         __df = None
         for callNum in range(0, self.__requestCount):
             self.__parameterDict["from"] = 0
@@ -103,6 +191,26 @@ class BatchProcessorConstructionMonitor:
 class BatchProcessorUtahRealEstate():
 
     def __init__(self, RestDomain, NumBatches, ParameterString, HeaderDict, valueObject):
+        """
+    The __init__ function is the constructor for a class. It is called when an object of that class
+    is instantiated, and it sets up the attributes of that object. In this case, we are setting up
+    the dataframe attribute to be None (which will be set later), and we are also setting up some
+    other attributes which will help us make our API calls.
+
+    Args:
+        self: Represent the instance of the class
+        RestDomain: Specify the domain of the rest api
+        NumBatches: Determine how many batches of data to pull from the api
+        ParameterString: Pass the parameters to the rest api
+        HeaderDict: Pass in the header information for the api call
+        valueObject: Create a dataframe from the json response
+
+    Returns:
+        The instance of the class
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.dataframe = None
         self.__numBatches = NumBatches
         self.__parameterString = ParameterString
@@ -111,10 +219,40 @@ class BatchProcessorUtahRealEstate():
         self.valueObject = valueObject
 
     def FuncSelector(self):
+        """
+    The FuncSelector function is a function that takes the valueObject as an argument and then calls the appropriate
+        function based on what was selected in the dropdown menu.  The valueObject is passed to each of these functions
+        so that they can access all of its attributes.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        The function that is selected by the user
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.BatchProcessingUtahRealestateCom(self.valueObject)
 
     def BatchProcessingUtahRealestateCom(self, valueObject):
-        # Batch Process
+        """
+    The BatchProcessingUtahRealestateCom function is a function that takes in the valueObject and uses it to
+       update the progress bar. It also takes in self, which contains all of the necessary information for this
+       function to work properly. The BatchProcessingUtahRealestateCom function will then use requests to get data from
+       UtahRealestate.com's ReST API and store it into a pandas DataFrame object called __df (which is local). This
+       process will be repeated until all of the data has been collected from UtahRealestate.com's ReST API, at which point __df will contain all
+
+    Args:
+        self: Represent the instance of the class
+        valueObject: Pass the value of a progress bar to the function
+
+    Returns:
+        A dataframe of the scraped data
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         __df = pd.DataFrame()
 
         for batch in range(self.__numBatches):

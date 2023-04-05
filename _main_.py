@@ -20,19 +20,16 @@
 #  for any purpose other than the purpose for which they were provided to you.
 #
 #
-def StringToList(string):
-    """
-The StringToList function takes a string and converts it into a list.
-    The function is used to convert the input from the user into a list of strings, which can then be iterated through.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#
+from Initializer import initializer
 
-Args:
-    string: Split the string into a list
+initializer()
 
-Returns:
-    A list of strings
 
-Doc Author:
-    Willem van der Schans, Trelent AI
-"""
-    listOut = list(string.split(","))
-    return listOut
+

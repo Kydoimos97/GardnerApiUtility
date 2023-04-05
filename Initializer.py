@@ -1,3 +1,25 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#
 import os
 from pathlib import Path
 
@@ -17,6 +39,22 @@ import subprocess
 class initializer:
 
     def __init__(self):
+
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up the logging, calls the __ShowGui function to create and display
+    the GUI, and then calls __CreateFrame to create a frame for displaying widgets.
+
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.classObj = None
 
         # Setup Logging
@@ -27,7 +65,24 @@ class initializer:
 
     def __ShowGui(self, layout, text):
 
-        # Create Window
+        """
+    The __ShowGui function is the main function that displays the GUI.
+    It takes two arguments: layout and text. Layout is a list of lists, each containing a tuple with three elements:
+        1) The type of element to be displayed (e.g., &quot;Text&quot;, &quot;InputText&quot;, etc.)
+        2) A dictionary containing any additional parameters for that element (e.g., size, default value, etc.)
+        3) An optional key name for the element (used in event handling). If no key name is provided then one will be generated automatically by PySimpleGUIQt based on its position in the layout list
+
+    Args:
+        self: Represent the instance of the class
+        layout: Pass the layout of the window to be created
+        text: Set the title of the window
+
+    Returns:
+        A window object
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
@@ -73,6 +128,20 @@ class initializer:
         window.close()
 
     def __CreateFrame(self):
+
+        """
+    The __CreateFrame function is a helper function that creates the layout for the main window.
+    It returns a list of lists, which is then passed to sg.Window() as its layout parameter.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A list of lists, which is then passed to the sg
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         sg.theme('Default1')
 
         line0 = [sg.HSeparator()]

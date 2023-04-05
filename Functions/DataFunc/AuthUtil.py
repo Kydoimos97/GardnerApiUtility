@@ -1,22 +1,53 @@
+#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
+#  the warranties of merchantability, fitness for a particular purpose and non infringement.
+#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
+#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
+#  or the use or other dealings in the software.
+#
+#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#
 import ctypes
 import json
-
 import PySimpleGUI as sg
-from os import path
-from Functions.Gui.ImageLoader import ImageLoader
 from pathlib import Path
 import os
-import datetime
 from cryptography.fernet import Fernet
 
-from Functions.Gui.PopupWrapped import PopupWrapped
+from API_Calls.Functions.Gui.ImageLoader import ImageLoader
+from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
 class AuthUtil:
 
     def __init__(self):
 
-        # Class Variables
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up the initial state of the object, which in this case means that it creates a new window and displays it on screen.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        None
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.StandardStatus = None
         self.ListedOrModified = None
         self.file_name = None
@@ -76,10 +107,25 @@ class AuthUtil:
         try:
             ctypes.windll.kernel32.SetFileAttributesW(self.keyPath.joinpath("3v45wfvw45wvc4f35.av3ra3rvavcr3w"), 2)
         except Exception as e:
-            print(e)
             pass
 
     def __SetValues(self, values):
+
+        """
+    The __SetValues function is called when the user clicks on the &quot;OK&quot; button in the window.
+    It takes a dictionary of values as an argument, and then uses those values to update
+    the auth.json file with new keys for both Utah Real Estate and Construction Monitor.
+
+    Args:
+        self: Make the function a method of the class
+        values: Store the values that are entered into the form
+
+    Returns:
+        A dictionary of the values entered by the user
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         ureCurrent = None
         cmCurrent = None
         keyFile = None
@@ -145,7 +191,20 @@ class AuthUtil:
 
     def __ShowGui(self, layout, text):
 
-        # Create Window
+        """
+    The __ShowGui function is a helper function that displays the GUI to the user.
+    It takes in two arguments: layout and text. The layout argument is a list of lists,
+    which contains all of the elements that will be displayed on screen. The text argument
+    is simply what will be displayed at the top of the window.
+
+    Args:
+        self: Represent the instance of the class
+        layout: Pass the layout of the gui to be displayed
+        text: Set the title of the window
+
+    Returns:
+        A window object
+    """
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))

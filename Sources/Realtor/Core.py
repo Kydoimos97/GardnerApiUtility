@@ -9,6 +9,19 @@ from Functions.Gui.PopupWrapped import PopupWrapped
 class realtorCom:
 
     def __init__(self):
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up the initial state of an object, and it's where you put code that needs to run before anything else in your class.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A new object
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.__page_html = None
         self.__update_date = None
         self.__last_date = None
@@ -29,6 +42,20 @@ class realtorCom:
 
     def __showUi(self):
 
+        """
+    The __showUi function is a helper function that creates and displays the progress window.
+    It also starts the dataUpdater thread, which will update the progress bar as it runs.
+
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A popupwrapped object
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         uiObj = PopupWrapped(text="Request running", windowType="progress", error=None)
 
         # Thread get Count to keep gui in mainloop
@@ -44,6 +71,20 @@ class realtorCom:
 
     def __linkGetter(self):
 
+        """
+    The __linkGetter function is a private function that takes the idDict dictionary and adds
+    a link to each entry in the dictionary. The link is used to access historical data for each
+    scope symbol.
+
+    Args:
+        self: Refer to the object itself
+
+    Returns:
+        A dictionary of all the links to the history pages
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         for key, value in self.__idDict.items():
             for row in self.__page_html.find_all("div", {"class": "monthly"}):
                 try:
@@ -57,6 +98,23 @@ class realtorCom:
 
     def __dataUpdater(self):
 
+        """
+    The __dataUpdater function is a private function that updates the dataframes for each of the three
+        types of realtor data. It takes class variables and return the path to the saved file. The function first creates an empty
+        dictionary called tempdf, then iterates through each key in self.__idDict (which contains all three ids).
+        For each key, it reads in a csv file from the link associated with that id and saves it to tempdf as a pandas
+        DataFrame object. Then, depending on which type of realtor data we are dealing with (State/County/Zip), we save
+
+
+    Args:
+        self: Access the attributes and methods of the class
+
+    Returns:
+        The path of the saved file
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         for key, value in self.__idDict.items():
             tempdf = pd.read_csv(self.__idDict[key]['link'], low_memory=False)
 

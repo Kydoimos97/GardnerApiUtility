@@ -3,14 +3,30 @@ from datetime import date
 import pandas as pd
 import requests
 
-from Functions.DataFunc.FileSaver import FileSaver
-from Functions.ErrorFunc.RESTError import RESTError
-from Functions.Gui.PopupWrapped import PopupWrapped
+from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.ErrorFunc.RESTError import RESTError
+from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
 class Cencus:
 
     def __init__(self, state_arg=None, year_arg=None):
+        """
+    The __init__ function is called when the class is instantiated.
+    It's job is to initialize the object with some default values, and do any other setup that might be necessary.
+    The __init__ function can take arguments, but it doesn't have to.
+
+    Args:
+        self: Represent the instance of the class
+        state_arg: Set the state_arg attribute of the class
+        year_arg: Set the year of data to be retrieved
+
+    Returns:
+        A popupwrapped object
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.state_arg = state_arg
         self.year_arg = year_arg
         self.uiString = None
@@ -26,6 +42,20 @@ class Cencus:
 
     def __showUi(self):
 
+        """
+    The __showUi function is a function that creates a progress bar window.
+    The __showUi function takes class variables and returns a windowobj.
+
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        The uiobj variable
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         uiObj = PopupWrapped(text="Cenus Request running", windowType="progress", error=None)
 
         # Thread get Count to keep gui in mainloop
@@ -40,6 +70,19 @@ class Cencus:
             uiObj.stopWindow()
 
     def __dataGetter(self):
+        """
+    The __dataGetter function is a private function that gets the data from the CFPB API.
+    It takes no arguments, but uses self.state_arg and self.year_arg to create a URL for the API call.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        A response object
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         arg_dict_bu = locals()
 
         link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?"

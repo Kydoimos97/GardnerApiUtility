@@ -25,6 +25,20 @@ class ConstructionMonitorInit:
     def __init__(self):
 
         # Class Variables
+        """
+    The __init__ function is called when the class is instantiated.
+    It sets up the variables that will be used by other functions in this class.
+
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        None
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.size = None
         self.SourceInclude = None
         self.dateStart = None
@@ -67,6 +81,22 @@ class ConstructionMonitorInit:
     def __ShowGui(self, layout, text):
 
         # Create Window
+        """
+    The __ShowGui function is the main function that creates and displays the GUI.
+    It takes in a layout, which is a list of lists containing all of the elements to be displayed on screen.
+    The text parameter specifies what title should appear at the top of the window.
+
+    Args:
+        self: Refer to the current instance of a class
+        layout: Determine what the gui will look like
+        text: Set the title of the window
+
+    Returns:
+        A dictionary of values
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
@@ -92,6 +122,19 @@ class ConstructionMonitorInit:
     @staticmethod
     def __CreateFrame():
 
+        """
+    The __CreateFrame function creates the GUI layout for the application.
+        The function returns a list of lists that contains all of the elements to be displayed in the GUI window.
+        This is done by creating each line as a list and then appending it to another list which will contain all lines.
+
+    Args:
+
+    Returns:
+        The layout for the gui
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         sg.theme('Default1')
 
         line00 = [sg.HSeparator()]
@@ -143,6 +186,21 @@ class ConstructionMonitorInit:
     def __SetValues(self, values):
 
         # Page-limit
+        """
+    The __SetValues function is used to set the values of the variables that are used in the __GetData function.
+    The __SetValues function takes a dictionary as an argument, and then sets each variable based on what is passed into
+    the dictionary. The keys for this dictionary are defined by the user when they create their own instance of this class.
+
+    Args:
+        self: Represent the instance of the class
+        values: Pass in the values from the ui
+
+    Returns:
+        A dictionary of values
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.size = 1000
 
         # start_date
@@ -182,6 +240,21 @@ class ConstructionMonitorMain:
     def __init__(self, siteClass):
 
         # Inherited from Class
+        """
+    The __init__ function is the first function that runs when an object of this class is created.
+    It sets up all the variables and functions needed for this class to run properly.
+
+
+    Args:
+        self: Represent the instance of the class
+        siteClass: Identify the site that is being used
+
+    Returns:
+        Nothing
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.__siteClass = siteClass
         self.__restDomain = None
         self.__headerDict = None
@@ -209,6 +282,23 @@ class ConstructionMonitorMain:
             raise e
 
     def mainFunc(self):
+        """
+    The mainFunc function is the main function of this module. It will be called by the GUI or CLI to execute
+    the code in this module. The mainFunc function will first create a parameter dictionary using the __ParameterCreator
+    method, then it will get a count of all records that match its parameters using the __getCountUI method, and then
+    it will calculate how many batches are needed to retrieve all records with those parameters using BatchCalculator.
+    After that it asks if you want to continue with retrieving data from Salesforce (if running in GUI mode). Then it shows
+    a progress bar for each
+
+    Args:
+        self: Refer to the current object
+
+    Returns:
+        The dataframe
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         self.__ParameterCreator()
 
         # Count Request
@@ -230,6 +320,21 @@ class ConstructionMonitorMain:
         FileSaver("cm", self.dataframe, self.__appendFile)
 
     def __ParameterCreator(self):
+        """
+    The __ParameterCreator function is used to create the parameter dictionary that will be passed into the
+        __Request function. The function takes in a siteClass object and extracts all of its attributes, except for
+        those that start with '__' or are callable. It then creates a dictionary from these attributes and stores it as
+        self.__parameterDict.
+
+    Args:
+        self: Make the function a method of the class
+
+    Returns:
+        A dictionary of parameters and a list of non parameter variables
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         __Source_dict = {key: value for key, value in self.__siteClass.__dict__.items() if
                          not key.startswith('__') and not callable(key)}
 
@@ -258,6 +363,19 @@ class ConstructionMonitorMain:
     # Get the count of number of batches to be run
 
     def __getCount(self):
+        """
+    The __getCount function is used to get the total number of records that are returned from a query.
+    This function is called by the __init__ function and sets the self.__record_val variable with this value.
+
+    Args:
+        self: Represent the instance of the class
+
+    Returns:
+        The total number of records in the database
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         __count_resp = None
 
         try:
@@ -291,6 +409,20 @@ class ConstructionMonitorMain:
 
     def __getCountUI(self):
 
+        """
+    The __getCountUI function is a wrapper for the __getCount function.
+    It allows the user to run __getCount in a separate thread, so that they can continue working while it runs.
+    The function will display a progress bar and update with text as it progresses through its tasks.
+
+    Args:
+        self: Access the class variables and methods
+
+    Returns:
+        The count of the number of records in the database
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         if self.__ui_flag:
             uiObj = PopupWrapped(text="Batch request running", windowType="progress", error=None)
 
