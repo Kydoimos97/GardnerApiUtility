@@ -1,8 +1,4 @@
-import os
-from pathlib import Path
 from Initializer import initializer
-import datetime
-import sys
 
 initializer()
 
