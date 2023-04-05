@@ -14,10 +14,11 @@ from API_Calls.Functions.Gui.BatchGui import BatchInputGui
 from API_Calls.Functions.Gui.BatchProgressGUI import BatchProgressGUI
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
-from Functions.DataFunc.AuthUtil import AuthUtil
-from Functions.DataFunc.FileSaver import FileSaver
-from Functions.ErrorFunc.RESTError import RESTError
+from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
+from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 
+# Check if out util closed and break everything if it is manually closed
 
 class ConstructionMonitorInit:
 
@@ -50,11 +51,14 @@ class ConstructionMonitorInit:
             "Security").joinpath("auth.json"), "rb")
                     authDict = json.load(f)
                     fernet = Fernet(key)
+                    print(authDict["cm"]["auth"]) #Debug
                     self.auth_key = fernet.decrypt(authDict["cm"]["auth"]).decode()
                     passFlag = True
-                except:
+                except Exception as e:
+                    print(e) #Debug
                     AuthUtil()
             else:
+                print("here") #Debug
                 AuthUtil()
 
 

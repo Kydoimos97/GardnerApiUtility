@@ -10,6 +10,7 @@ from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from Functions.DataFunc.AuthUtil import AuthUtil
 from Functions.Gui.PopupWrapped import PopupWrapped
 from Sources.CFBP.Core import Cencus
+from API_Calls.Functions.ErrorFunc.Logger import logger
 import subprocess
 
 
@@ -17,6 +18,9 @@ class initializer:
 
     def __init__(self):
         self.classObj = None
+
+        # Setup Logging
+        logger()
 
         # Call UI
         self.__ShowGui(self.__CreateFrame(), "Data Tool")
@@ -52,7 +56,8 @@ class initializer:
                     except:
                         PopupWrapped(text="You don't have a documents folder!! \n"
                                           "Something is seriously wrong with your file structure \n"
-                                          "The program will not work until such a folder is made", windowType="errorLarge")
+                                          "The program will not work until such a folder is made",
+                                     windowType="errorLarge")
 
             elif event in ('Exit', None):
                 try:
@@ -84,9 +89,11 @@ class initializer:
                  sg.Text("Api Sources", font=("Helvetica", 10, "bold"), justification="center"),
                  sg.Push()]
 
-        line5 = [[sg.Push(), sg.Button("Construction Monitor", size=(20,None)), sg.Push(), sg.Button("Utah Real Estate", size=(20,None)), sg.Push()]]
+        line5 = [[sg.Push(), sg.Button("Construction Monitor", size=(20, None)), sg.Push(),
+                  sg.Button("Utah Real Estate", size=(20, None)), sg.Push()]]
 
-        line6 = [[sg.Push(), sg.Button("Realtor.Com", size=(20,None)), sg.Push(), sg.Button("Census", size=(20,None)), sg.Push()]]
+        line6 = [[sg.Push(), sg.Button("Realtor.Com", size=(20, None)), sg.Push(), sg.Button("Census", size=(20, None)),
+                  sg.Push()]]
 
         line8 = [sg.HSeparator()]
 
@@ -94,13 +101,11 @@ class initializer:
                  sg.Text("Utilities", font=("Helvetica", 10, "bold"), justification="center"),
                  sg.Push()]
 
-        line10 = [[sg.Push(), sg.Button("Authorization Utility", size=(20,None)), sg.Button("Open Data Folder", size=(20,None)), sg.Push()]]
+        line10 = [[sg.Push(), sg.Button("Authorization Utility", size=(20, None)),
+                   sg.Button("Open Data Folder", size=(20, None)), sg.Push()]]
 
         line11 = [sg.HSeparator()]
 
         layout = [line0, line1, line3, line4, line5, line6, line8, line9, line10, line11]
 
         return layout
-
-
-
