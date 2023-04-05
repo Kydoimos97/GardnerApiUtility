@@ -13,21 +13,13 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
-import os
-from pathlib import Path
 import datetime
+import os
 import sys
+from pathlib import Path
 
 
 def logger():
-
     """
 The logger function redirects stdout and stderr to log files in the user's AppData directory.
 
@@ -66,13 +58,11 @@ Doc Author:
         mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
         return list(sorted(os.listdir(path), key=mtime))
 
-    # Clean old log files
     del_list = sorted_ls(dir_path)[0:(len(sorted_ls(dir_path)) - 50)]
     for file in del_list:
         os.remove(dir_path.joinpath(file))
         print(f"Log file {file} deleted")
 
-    # Coerce Out and Err to files
     filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
         f"stdout{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
     sys.stdout = open(filePath, 'w')

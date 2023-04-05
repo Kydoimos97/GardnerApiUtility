@@ -13,15 +13,7 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 from API_Calls.Functions.ErrorFunc.ErrorPrint import RESTErrorPrint
-
 
 
 def RESTError(response):
@@ -73,7 +65,7 @@ Doc Author:
     elif status_code == 503:
         RESTErrorPrint(response)
         raise SystemError(f"Status Code = {status_code} | The resource is not ready for the get request")
-    # Manual Error Codes
+
     elif status_code == 790:
         raise SystemError(f"Status Code = {status_code} | Requests timeout within requests")
     elif status_code == 791:
@@ -90,7 +82,7 @@ Doc Author:
         raise KeyboardInterrupt(f"Status Code = {status_code} | User has cancelled the program execution")
     elif status_code == 1200:
         raise KeyboardInterrupt(f"Status Code = {status_code} | Request returned no documents")
-    # Catch All
+
     else:
         RESTErrorPrint(response)
         raise Exception(f"Status Code = {status_code} | An unknown exception occurred")

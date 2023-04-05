@@ -13,13 +13,6 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 import PySimpleGUI as sg
 
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
@@ -63,13 +56,12 @@ Doc Author:
                        icon=ImageLoader("taskbar_icon.ico"),
                        size=(290, 100))
 
-    # Event Loop
     while True:
         event, values = window.read()
         if event == "Continue":
             break
         elif event == sg.WIN_CLOSED or event == "Cancel":
-            # raise KeyboardInterrupt("User cancelled the program")
+
             break
 
     window.close()

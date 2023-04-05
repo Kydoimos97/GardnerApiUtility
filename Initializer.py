@@ -13,27 +13,20 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 import os
 from pathlib import Path
 
 import PySimpleGUI as sg
+
+from API_Calls.Functions.ErrorFunc.Logger import logger
+from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Sources.ConstructionMonitor.Core import ConstructionMonitorInit, \
     ConstructionMonitorMain
 from API_Calls.Sources.Realtor.Core import realtorCom
 from API_Calls.Sources.UtahRealEstate.Core import UtahRealEstateMain, UtahRealEstateInit
-from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from Functions.DataFunc.AuthUtil import AuthUtil
 from Functions.Gui.PopupWrapped import PopupWrapped
 from Sources.CFBP.Core import Cencus
-from API_Calls.Functions.ErrorFunc.Logger import logger
-import subprocess
 
 
 class initializer:
@@ -57,10 +50,8 @@ class initializer:
     """
         self.classObj = None
 
-        # Setup Logging
         logger()
 
-        # Call UI
         self.__ShowGui(self.__CreateFrame(), "Data Tool")
 
     def __ShowGui(self, layout, text):
@@ -87,11 +78,9 @@ class initializer:
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
 
-        # Create an event loop
         while True:
             event, values = window.read()
-            # End program if user closes window or
-            # presses the OK button
+
             if event == "Construction Monitor":
                 ConstructionMonitorMain(ConstructionMonitorInit())
             elif event == "Utah Real Estate":
@@ -118,10 +107,8 @@ class initializer:
                 try:
                     break
                 except Exception as e:
-                    # DEBUG
+                    print(e)
                     break
-
-            # etc. # DEBUG
             elif event == sg.WIN_CLOSED or event == "Quit":
                 break
 

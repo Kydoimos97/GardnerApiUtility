@@ -13,13 +13,6 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 import math
 from datetime import date
 
@@ -30,7 +23,6 @@ from API_Calls.Functions.DataFunc.DataSupportFunctions import StringToList
 
 
 def BatchCalculator(TotalRecords, Argument_Dict):
-
     """
 The BatchCalculator function takes two arguments:
     1. TotalRecords - the total number of records in the database
@@ -91,7 +83,6 @@ class BatchProcessorConstructionMonitor:
         self.__requestCalls = math.ceil(self.__maxRequests / int(self.__parameterDict['size']))
         self.__dateTracker = None
 
-
     def FuncSelector(self):
         """
     The FuncSelector function is a function that takes the valueObject and passes it to the ConstructionMonitorProcessor function.
@@ -127,7 +118,7 @@ class BatchProcessorConstructionMonitor:
         __df = None
         for callNum in range(0, self.__requestCount):
             self.__parameterDict["from"] = 0
-            # Split Batches
+
             if self.__requestCount > 1 and callNum != self.__requestCount - 1:
                 __batchNum = self.__requestCalls
                 if __df is None:
@@ -148,7 +139,6 @@ class BatchProcessorConstructionMonitor:
                 if record != 0:
                     self.__parameterDict["from"] = record * int(self.__parameterDict["size"])
 
-                # Do Post call
                 response = requests.post(url=self.__restDomain,
                                          headers=self.__headerDict,
                                          json=self.__parameterDict)
@@ -181,8 +171,6 @@ class BatchProcessorConstructionMonitor:
             __col_list.append("county")
         else:
             pass
-
-        # __df.drop_duplicates(inplace=True, ignore_index=True) DEBUG
 
         self.dataframe = __df
         valueObject.setValue(-999)
@@ -269,14 +257,11 @@ class BatchProcessorUtahRealEstate():
                 response = requests.get(f"{self.__restDomain}{self.__parameterString}&top=200&$skip={batch * 200}",
                                         headers=self.__headerDict)
 
-
                 response_temp = response.json()
                 response_temp = pd.json_normalize(response_temp, record_path=['value'])
                 __df = pd.concat([__df, response_temp], ignore_index=True)
 
             valueObject.setValue(valueObject.getValue() + 1)
-
-        # __df.drop_duplicates(inplace=True, ignore_index=True) DEBUG
 
         self.dataframe = __df
         valueObject.setValue(-999)

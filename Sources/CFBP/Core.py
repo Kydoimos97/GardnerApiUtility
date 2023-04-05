@@ -58,7 +58,7 @@ class Cencus:
     """
         uiObj = PopupWrapped(text="Cenus Request running", windowType="progress", error=None)
 
-        # Thread get Count to keep gui in mainloop
+       
         threadGui = threading.Thread(target=self.__dataGetter,
                                      daemon=False)
         threadGui.start()
@@ -87,7 +87,7 @@ class Cencus:
 
         link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?"
 
-        # Check Input
+       
         if self.state_arg is None:
             self.state_arg = "UT"
         else:
@@ -101,11 +101,11 @@ class Cencus:
         passFlag = False
 
         while not passFlag:
-            # Create Get URL
+           
             self.link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?" + f"states={self.state_arg}" + f"&years={self.year_arg}"
-            # Call URL
-            # Get requests need URL modification for filters
-            # What do you want to do with this data? Get average
+           
+           
+           
             response = requests.get(self.link)
 
             if response.status_code == 400:
@@ -114,5 +114,5 @@ class Cencus:
             else:
                 passFlag = True
 
-        # Response Code Handling
+       
         RESTError(response)

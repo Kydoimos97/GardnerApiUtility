@@ -13,18 +13,12 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 import ctypes
 import json
-import PySimpleGUI as sg
-from pathlib import Path
 import os
+from pathlib import Path
+
+import PySimpleGUI as sg
 from cryptography.fernet import Fernet
 
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
@@ -209,11 +203,9 @@ class AuthUtil:
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
 
-        # Create an event loop
         while not self.passFlagUre or not self.passFlagCm:
             event, values = window.read()
-            # End program if user closes window or
-            # presses the OK button
+
             if event == "Submit":
                 try:
                     self.__SetValues(values)
@@ -222,7 +214,7 @@ class AuthUtil:
                 finally:
                     pass
             elif event == sg.WIN_CLOSED or event == "Quit":
-                # raise KeyboardInterrupt("User interrupted the program.")
+
                 break
             else:
                 pass
@@ -230,6 +222,20 @@ class AuthUtil:
         window.close()
 
     def __CreateFrame(self):
+        """
+    The __CreateFrame function creates the GUI layout for the Authentication Utility.
+    It is called by __init__ and returns a list of lists that contains all of the elements
+    that will be displayed in the window.
+
+    Args:
+        self: Access the class attributes and methods
+
+    Returns:
+        A list of lists
+
+    Doc Author:
+        Trelent
+    """
         sg.theme('Default1')
 
         line00 = [sg.HSeparator()]

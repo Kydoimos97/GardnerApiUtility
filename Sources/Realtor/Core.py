@@ -58,7 +58,7 @@ class realtorCom:
     """
         uiObj = PopupWrapped(text="Request running", windowType="progress", error=None)
 
-        # Thread get Count to keep gui in mainloop
+       
         threadGui = threading.Thread(target=self.__dataUpdater,
                                      daemon=False)
         threadGui.start()
@@ -92,7 +92,6 @@ class realtorCom:
                         if "History" in str(nestedRow.get("href")) and key in str(nestedRow.get("href")):
                             self.__idDict[key] = {"id": value, "link": nestedRow.get("href")}
                 except Exception as e:
-                    # DEBUG
                     print(e)
                     pass
 

@@ -13,17 +13,12 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 import datetime
 import threading
-import PySimpleGUI as sg
 import time
+
+import PySimpleGUI as sg
+
 from API_Calls.Functions.DataFunc.BatchProcessing import BatchProcessorConstructionMonitor, BatchProcessorUtahRealEstate
 from API_Calls.Functions.Gui.DataTransfer import DataTransfer
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
@@ -85,7 +80,7 @@ class BatchProgressGUI():
         self.createGui(self.__type)
 
     def CreateProgressLayout(self):
-        # ----------Layout----------
+
         """
     The CreateProgressLayout function creates the layout for the progress window.
         The function takes in self as a parameter and returns nothing.
@@ -121,7 +116,7 @@ class BatchProgressGUI():
         self.__layout = layout
 
     def createGui(self, type):
-        # ----------Window and Variables----------
+
         """
     The createGui function is the main function that creates the GUI.
     It takes in a type parameter which determines what kind of batch processor to use.
@@ -142,7 +137,6 @@ class BatchProgressGUI():
     """
         self.__window = sg.Window('Progress', self.__layout, finalize=True, icon=ImageLoader("taskbar_icon.ico"))
 
-        # Set initial Positions
         start_time = datetime.datetime.now().replace(microsecond=0)
         update_text = f"Batch {0} completed"
         self.__window['--progress_text--'].update(update_text)
@@ -154,7 +148,6 @@ class BatchProgressGUI():
 
         if type == "construction_monitor":
 
-            print("1") #Debug
             processorObject = BatchProcessorConstructionMonitor(RestDomain=self.__restDomain,
                                                                 NumBatches=self.__batches,
                                                                 ParameterDict=self.__parameterDict,
@@ -162,14 +155,12 @@ class BatchProgressGUI():
                                                                 ColumnSelection=self.__columnSelection,
                                                                 valueObject=valueObj)
         elif type == "utah_real_estate":
-            print("2") #Debug
             processorObject = BatchProcessorUtahRealEstate(RestDomain=self.__restDomain,
                                                            NumBatches=self.__batches,
                                                            ParameterString=self.__parameterDict,
                                                            HeaderDict=self.__headerDict,
                                                            valueObject=valueObj)
 
-        # Set MultiThreading
         threading.Thread(target=self.TimeUpdater,
                          args=(start_time,),
                          daemon=True).start()
@@ -183,7 +174,6 @@ class BatchProgressGUI():
                          args=(valueObj,),
                          daemon=False).start()
 
-        # Set Main Window Event Loop
         while True:
 
             self.ProgressUpdater(valueObj)
@@ -199,7 +189,6 @@ class BatchProgressGUI():
                 pass
 
             if event == sg.WIN_CLOSED or event == "Cancel" or event == "Exit":
-                # raise KeyboardInterrupt("User cancelled the program")
                 break
 
             time.sleep(0.1)
@@ -209,7 +198,6 @@ class BatchProgressGUI():
 
         PopupWrapped(text="Api Request Completed", windowType="notice")
 
-    # ---------Progress Bar Function----------
     def ProgressUpdater(self, valueObj):
         """
     The ProgressUpdater function is a callback function that updates the progress bar and text
@@ -233,13 +221,11 @@ class BatchProgressGUI():
 
             __update_text = f"Batch {self.__batch_counter}/{self.__batches} completed"
 
-            # Push Updates
             self.__window.write_event_value('update--progress_bar--', self.__batch_counter)
             self.__window.write_event_value('update--progress_text--', __update_text)
         else:
             pass
 
-    # ----------Time Updater Function----------
     def TimeUpdater(self, start_time):
 
         """
@@ -260,27 +246,21 @@ class BatchProgressGUI():
     """
         while True:
             if self.__batch_counter < self.__batches:
-                # ----------Timer----------
-                # Get Current Time
+
                 __current_time = datetime.datetime.now().replace(microsecond=0)
 
-                # Get Time
                 __passed_time = __current_time - start_time
 
-                # Create Updated String and Update
                 __timer_string = f"Time Elapsed {__passed_time}"
 
                 try:
                     self.__window.write_event_value('update--timer--', __timer_string)
                 except AttributeError:
-                    # Allows for thread specific check if window has closed since we can't read events here
+
                     break
 
-                # ----------Time Estimator----------
-                # Get time in seconds
                 __passed_time = __passed_time.total_seconds()
 
-                # Get time Estimation and set format
                 try:
                     __time_est = datetime.timedelta(
                         seconds=(__passed_time * (self.__batches / self.__batch_counter) - __passed_time)).seconds
@@ -290,7 +270,6 @@ class BatchProgressGUI():
 
                 __time_est = time.strftime('%H:%M:%S', time.gmtime(__time_est))
 
-                # Create Updated String and Update
                 __end_string = f"Est time needed {__time_est}"
                 self.__window.write_event_value('update--time_est--', __end_string)
             else:

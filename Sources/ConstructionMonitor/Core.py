@@ -18,13 +18,12 @@ from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 
-# Check if out util closed and break everything if it is manually closed
 
 class ConstructionMonitorInit:
 
     def __init__(self):
 
-        # Class Variables
+       
         """
     The __init__ function is called when the class is instantiated.
     It sets up the variables that will be used by other functions in this class.
@@ -48,10 +47,10 @@ class ConstructionMonitorInit:
         self.ui_flag = None
         self.append_file = None
 
-        # Call UI
+       
         passFlag = False
 
-        # Get Auth Key
+       
         while not passFlag:
             if os.path.isfile(Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Security')).joinpath(
             "3v45wfvw45wvc4f35.av3ra3rvavcr3w")) and os.path.isfile(Path(os.path.expanduser('~/Documents')).joinpath("GardnerUtilData").joinpath(
@@ -65,14 +64,11 @@ class ConstructionMonitorInit:
             "Security").joinpath("auth.json"), "rb")
                     authDict = json.load(f)
                     fernet = Fernet(key)
-                    print(authDict["cm"]["auth"]) #Debug
                     self.auth_key = fernet.decrypt(authDict["cm"]["auth"]).decode()
                     passFlag = True
                 except Exception as e:
-                    print(e) #Debug
                     AuthUtil()
             else:
-                print("here") #Debug
                 AuthUtil()
 
 
@@ -80,7 +76,7 @@ class ConstructionMonitorInit:
 
     def __ShowGui(self, layout, text):
 
-        # Create Window
+       
         """
     The __ShowGui function is the main function that creates and displays the GUI.
     It takes in a layout, which is a list of lists containing all of the elements to be displayed on screen.
@@ -101,20 +97,19 @@ class ConstructionMonitorInit:
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
 
-        # Create an event loop
+       
         while True:
             event, values = window.read()
-            # End program if user closes window or
-            # presses the OK button
+           
+           
             if event == "Submit":
                 try:
                     self.__SetValues(values)
                     break
                 except Exception as e:
-                    # DEBUG
+                    print(e)
                     break
             elif event == sg.WIN_CLOSED or event == "Quit":
-                # raise KeyboardInterrupt("User cancelled the program")
                 break
 
         window.close()
@@ -185,7 +180,7 @@ class ConstructionMonitorInit:
 
     def __SetValues(self, values):
 
-        # Page-limit
+       
         """
     The __SetValues function is used to set the values of the variables that are used in the __GetData function.
     The __SetValues function takes a dictionary as an argument, and then sets each variable based on what is passed into
@@ -203,35 +198,35 @@ class ConstructionMonitorInit:
     """
         self.size = 1000
 
-        # start_date
+       
         if values["-Cal-"] != "":
             self.dateStart = values["-Cal-"]
         else:
             self.dateStart = (date.today() - timedelta(days=14)).strftime("%Y-%m-%d")
 
-        # start_date
+       
         if values["-EndCal-"] != "":
             self.dateEnd = values["-EndCal-"]
         else:
             self.dateEnd = date.today().strftime("%Y-%m-%d")
 
-        # Rest Domain
+       
         self.rest_domain = "https://api.constructionmonitor.com/v2/powersearch/?"
 
-        # Column Selection
+       
         if values["-select_columns-"] == "True":
             self.SourceInclude = "state,county,city,description,valuation,sqft,units,permitdate,lastupdated," \
                                  "permitstatus "
         else:
             self.SourceInclude = None
 
-        # appending_file
+       
         if values["-append_file-"] != "":
             self.append_file = str(values["-append_file-"])
         else:
             self.append_file = None
 
-        # UIflag [obsolete flag] TODO: Remove
+       
         self.ui_flag = True
 
 
@@ -239,7 +234,7 @@ class ConstructionMonitorMain:
 
     def __init__(self, siteClass):
 
-        # Inherited from Class
+       
         """
     The __init__ function is the first function that runs when an object of this class is created.
     It sets up all the variables and functions needed for this class to run properly.
@@ -261,16 +256,16 @@ class ConstructionMonitorMain:
         self.__columnSelection = None
         self.__appendFile = None
 
-        # Created In Class
+       
         self.__parameterDict = {}
         self.__search_id = None
         self.__record_val = 0
         self.__batches = 0
 
-        # Read from UI
+       
         self.__ui_flag = None
 
-        # Read from BatchProcessor
+       
         self.dataframe = None
 
         try:
@@ -301,14 +296,14 @@ class ConstructionMonitorMain:
     """
         self.__ParameterCreator()
 
-        # Count Request
+       
         self.__getCountUI()
-        # Batch Calculator
+       
         self.__batches = BatchCalculator(self.__record_val, self.__parameterDict)
-        # Ask to continue
+       
         if self.__ui_flag:
             BatchInputGui(self.__batches)
-        # Show Batch Progress
+       
         BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                           ParameterDict=self.__parameterDict,
                                           HeaderDict=self.__headerDict,
@@ -338,7 +333,7 @@ class ConstructionMonitorMain:
         __Source_dict = {key: value for key, value in self.__siteClass.__dict__.items() if
                          not key.startswith('__') and not callable(key)}
 
-        # Extract non parameter variables
+       
         self.__restDomain = __Source_dict["rest_domain"]
         __Source_dict.pop("rest_domain")
         self.__headerDict = {"Authorization": __Source_dict["auth_key"]}
@@ -350,7 +345,7 @@ class ConstructionMonitorMain:
         self.__appendFile = __Source_dict["append_file"]
         __Source_dict.pop("append_file")
 
-        # Create Parameter Dictionary
+       
         temp_dict = copy.copy(__Source_dict)
         for key, value in temp_dict.items():
             if value is None:
@@ -360,7 +355,7 @@ class ConstructionMonitorMain:
 
         self.__parameterDict = copy.copy(__Source_dict)
 
-    # Get the count of number of batches to be run
+   
 
     def __getCount(self):
         """
@@ -379,18 +374,18 @@ class ConstructionMonitorMain:
         __count_resp = None
 
         try:
-            # Try for count request
+           
             __temp_param_dict = copy.copy(self.__parameterDict)
 
             __count_resp = requests.post(url=self.__restDomain,
                                          headers=self.__headerDict,
                                          json=__temp_param_dict)
 
-            # Error Handling if not valid
+           
             if __count_resp.status_code != 200:
                 RESTError(__count_resp)
 
-        # requests Error Handling
+       
         except requests.exceptions.Timeout:
             RESTError(790)
         except requests.exceptions.TooManyRedirects:
@@ -398,13 +393,13 @@ class ConstructionMonitorMain:
         except requests.exceptions.RequestException:
             RESTError(1000)
 
-        # Get needed Values
+       
         __count_resp = __count_resp.json()
 
-        # Set values
+       
         self.__record_val = __count_resp["hits"]["total"]["value"]
 
-        # Garbage Collection
+       
         del __count_resp, __temp_param_dict
 
     def __getCountUI(self):
@@ -426,7 +421,7 @@ class ConstructionMonitorMain:
         if self.__ui_flag:
             uiObj = PopupWrapped(text="Batch request running", windowType="progress", error=None)
 
-            # Thread get Count to keep gui in mainloop
+           
             threadGui = threading.Thread(target=self.__getCount,
                                          daemon=False)
             threadGui.start()

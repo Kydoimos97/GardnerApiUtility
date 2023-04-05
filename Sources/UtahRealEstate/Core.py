@@ -22,7 +22,7 @@ class UtahRealEstateInit:
 
     def __init__(self):
 
-        # Class Variables
+       
         """
     The __init__ function is called when the class is instantiated.
     It sets up the initial state of the object.
@@ -45,12 +45,12 @@ class UtahRealEstateInit:
         self.file_name = None
         self.append_file = None
 
-        # Call UI
+       
         self.__ShowGui(self.__CreateFrame(), "Utah Real Estate")
 
     def __ShowGui(self, layout, text):
 
-        # Create Window
+       
         """
     The __ShowGui function is a helper function that creates the GUI window and displays it to the user.
     It takes in two parameters: layout, which is a list of lists containing all of the elements for each row;
@@ -72,20 +72,20 @@ class UtahRealEstateInit:
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
 
-        # Create an event loop
+       
         while True:
             event, values = window.read()
-            # End program if user closes window or
-            # presses the OK button
+           
+           
             if event == "Submit":
                 try:
                     self.__SetValues(values)
                     break
                 except Exception as e:
-                    # DEBUG
+                    print(e)
                     break
             elif event == sg.WIN_CLOSED or event == "Quit":
-                # raise KeyboardInterrupt("User cancelled the program")
+               
                 break
 
         window.close()
@@ -163,7 +163,7 @@ class UtahRealEstateInit:
 
     def __SetValues(self, values):
 
-        # Status
+       
         """
     The __SetValues function is used to set the values of the variables that are used in the
        __GetData function. The values are passed from a dictionary called 'values' which is created
@@ -182,22 +182,22 @@ class UtahRealEstateInit:
     """
         self.StandardStatus = values["-status-"]
 
-        # Type
+       
         self.ListedOrModified = values["-type-"]
 
-        # start_date
+       
         if values["-DateStart-"] != "":
             self.dateStart = values["-DateStart-"]
         else:
             self.dateStart = (date.today() - timedelta(days=14)).strftime("%Y-%m-%d")
 
-        # end_date
+       
         if values["-DateEnd-"] != "":
             self.dateEnd = values["-DateEnd-"]
         else:
-            self.dateEnd = (date.today()).strftime("%Y-%m-%d")  # debug Time?
+            self.dateEnd = (date.today()).strftime("%Y-%m-%d")
 
-        # selection_flag
+       
         if values['-selectionFlag-']:
             self.select = "ListingKeyNumeric,StateOrProvince,CountyOrParish,City,PostalCity,PostalCode,SubdivisionName," \
                           "StreetName,StreetNumber,ParcelNumber,UnitNumber,UnparsedAddress,MlsStatus,CloseDate," \
@@ -210,7 +210,7 @@ class UtahRealEstateInit:
         else:
             self.select = None
 
-        # appending_file
+       
         if values["-append_file-"] != "":
             self.append_file = str(values["-append_file-"])
         else:
@@ -221,7 +221,7 @@ class UtahRealEstateMain:
 
     def __init__(self, siteClass):
 
-        # Inherited from Class
+       
         """
     The __init__ function is the first function that runs when an object of this class is created.
     It sets up all the variables and functions needed for this class to work properly.
@@ -252,13 +252,13 @@ class UtahRealEstateMain:
         self.key = None
 
 
-        ## Error Handling goes here! #Todo
+       
         try:
             self.mainFunc()
         except KeyError as e:
             if "ListedOrModified" in str(getattr(e, 'message', repr(e))):
                 pass
-        except AttributeError as e: #Authentication Error
+        except AttributeError as e:
             if "_UtahRealEstateMain__restDomain":
                 PopupWrapped(text="Authentication Error", windowType="permerror", error=401)
             else:
@@ -284,7 +284,7 @@ class UtahRealEstateMain:
     """
         passFlag = False
 
-        # Get Auth Key
+       
         while not passFlag:
             if os.path.isfile(self.keyPath) and os.path.isfile(self.filePath):
                 try:
@@ -304,13 +304,13 @@ class UtahRealEstateMain:
 
         self.__ParameterCreator()
 
-        # Count Request
+       
         self.__getCountUI()
-        # Batch Calculator
+       
         self.__batches = BatchCalculator(self.__record_val, None)
-        # Ask to continue
+       
         BatchInputGui(self.__batches)
-        # Show Batch Progress
+       
         BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                           ParameterDict=self.__parameterString,
                                           HeaderDict=self.__headerDict,
@@ -340,11 +340,11 @@ class UtahRealEstateMain:
         __Source_dict = {key: value for key, value in self.__siteClass.__dict__.items() if
                          not key.startswith('__') and not callable(key)}
 
-        # Extract non parameter variables
+       
         self.__appendFile = __Source_dict["append_file"]
         __Source_dict.pop("append_file")
 
-        # Create Parameter Dictionary
+       
         temp_dict = copy.copy(__Source_dict)
         for key, value in temp_dict.items():
             if value is None:
@@ -352,7 +352,7 @@ class UtahRealEstateMain:
             else:
                 pass
 
-        # "Listing Date", "Modification Date", "Close Date"
+       
         if __Source_dict["ListedOrModified"] == "Listing Date":
             filter_string = f"$filter=ListingContractDate%20gt%20{__Source_dict['dateStart']}%20and%20ListingContractDate%20le%20{__Source_dict['dateEnd']}"
         elif __Source_dict["ListedOrModified"] == "Modification Date":
@@ -388,14 +388,14 @@ class UtahRealEstateMain:
         try:
             __count_resp = requests.get(f"{self.__restDomain}{self.__parameterString}&$count=true",
                                         headers=self.__headerDict)
-            # Error Handling if not valid
+           
             if __count_resp.status_code != 200:
                 RESTError(__count_resp)
 
-            # Batch Processing (200 Max)
+           
             self.__record_val = int(__count_resp.json()["@odata.count"])
 
-        # requests Error Handling
+       
         except requests.exceptions.Timeout:
             RESTError(790)
         except requests.exceptions.TooManyRedirects:
@@ -421,7 +421,7 @@ class UtahRealEstateMain:
     """
         uiObj = PopupWrapped(text="Batch request running", windowType="progress", error=None)
 
-        # Thread get Count to keep gui in mainloop
+       
         threadGui = threading.Thread(target=self.__getCount,
                                      daemon=False)
         threadGui.start()

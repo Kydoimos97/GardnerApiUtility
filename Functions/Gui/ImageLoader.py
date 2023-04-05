@@ -13,22 +13,15 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
 import base64
 import os
-from os.path import join, normpath
 from io import BytesIO
+from os.path import join, normpath
+
 from PIL import Image
 
 
 def ImageLoader(file):
-    # Create Source path
     """
 The ImageLoader function takes in a file name and returns the image as a base64 encoded string.
 This is used to send images to the API for processing.
@@ -46,17 +39,12 @@ Doc Author:
     __path = normpath(join(__path, "Images"))
     __path = join(__path, file).replace("\\", "/")
 
-    # open Image
     image = Image.open(__path)
 
-    # Create BytesIO object
     __buff = BytesIO()
 
-    # Save image to buffer
     image.save(__buff, format="png")
 
-    # Encode image to base64
     img_str = base64.b64encode(__buff.getvalue())
 
-    # Return image_string
     return img_str
