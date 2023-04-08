@@ -67,4 +67,4 @@ Doc Author:
     del_list = sorted_ls(dir_path)[0:(len(sorted_ls(dir_path)) - 100)]
     for file in del_list:
         os.remove(dir_path.joinpath(file))
-        print(f"Log file {file} deleted")
+        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Log file {file} deleted")

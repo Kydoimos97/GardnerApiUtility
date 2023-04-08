@@ -12,6 +12,8 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+import datetime
+
 
 def RESTErrorPrint(response):
     """
@@ -29,7 +31,7 @@ Doc Author:
     Willem van der Schans, Trelent AI
 """
     if isinstance(response, int):
-        print(f"Resource Response: {response}")
+        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Resource Response: {response}")
     else:
         response_txt = response.text
-        print(f"Resource Response: {response_txt}")
+        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Resource Response: {response_txt}")

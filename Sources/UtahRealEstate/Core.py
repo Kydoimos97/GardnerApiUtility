@@ -125,11 +125,11 @@ class UtahRealEstateInit:
 
         line4 = [sg.Text("Start Date : ", size=(15, None), justification="Right"),
                  sg.Input(default_text=(date.today() - timedelta(days=14)).strftime("%Y-%m-%d"), key="-DateStart-",
-                          disabled=True, size=(20, 1)),
+                          disabled=False, size=(20, 1)),
                  sg.CalendarButton("Select Date", format="%Y-%m-%d", key='-start_date-', target="-DateStart-")]
 
         line5 = [sg.Text("End Date : ", size=(15, None), justification="Right"),
-                 sg.Input(default_text=(date.today().strftime("%Y-%m-%d")), key="-DateEnd-", disabled=True,
+                 sg.Input(default_text=(date.today().strftime("%Y-%m-%d")), key="-DateEnd-", disabled=False,
                           size=(20, 1)),
                  sg.CalendarButton("Select Date", format="%Y-%m-%d", key='-end_date-', target="-DateEnd-")]
 
@@ -295,7 +295,7 @@ class UtahRealEstateMain:
                     self.__headerDict = {authDict["ure"]["parameter"]: authkey}
                     passFlag = True
                 except Exception as e:
-                    print(f"UtahRealEstate/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
+                    print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | UtahRealEstate/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
                     AuthUtil()
             else:
                 AuthUtil()
@@ -309,7 +309,7 @@ class UtahRealEstateMain:
         if self.__batches != 0:
             startTime = datetime.datetime.now().replace(microsecond=0)
             BatchInputGui(self.__batches)
-            print(f"Request for {self.__batches} Batches sent to server")
+            print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} Batches sent to server")
             BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                               ParameterDict=self.__parameterString,
                                               HeaderDict=self.__headerDict,
@@ -318,7 +318,7 @@ class UtahRealEstateMain:
             BatchGuiObject.BatchGuiShow()
             self.dataframe = BatchGuiObject.dataframe
             print(
-                f"Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
             FileSaver("ure", self.dataframe, self.__appendFile)
         else:
             RESTError(994)

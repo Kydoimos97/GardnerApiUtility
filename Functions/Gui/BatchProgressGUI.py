@@ -163,16 +163,16 @@ class BatchProgressGUI:
         threading.Thread(target=self.TimeUpdater,
                          args=(start_time,),
                          daemon=True).start()
-        print("TimeUpdater Thread Successfully Started")
+        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | TimeUpdater Thread Successfully Started")
 
         batchFuncThread = threading.Thread(target=processorObject.FuncSelector,
                                            daemon=False)
         batchFuncThread.start()
-        print("BatchFunc Thread Successfully Started")
+        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | BatchFunc Thread Successfully Started")
         threading.Thread(target=self.ValueChecker,
                          args=(valueObj,),
                          daemon=False).start()
-        print("ValueChecker Thread Successfully Started")
+        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | ValueChecker Thread Successfully Started")
 
         while True:
 
@@ -257,7 +257,7 @@ class BatchProgressGUI:
                     self.__window.write_event_value('update--timer--', __timer_string)
                 except AttributeError as e:
                     print(
-                        f"BatchProgressGUI.py | Error = {e} | Timer string attribute error, this is okay if the display looks good, this exception omits fatal crashes due to an aesthetic error")
+                        f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | BatchProgressGUI.py | Error = {e} | Timer string attribute error, this is okay if the display looks good, this exception omits fatal crashes due to an aesthetic error")
                     break
 
                 __passed_time = __passed_time.total_seconds()

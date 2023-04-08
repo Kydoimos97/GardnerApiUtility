@@ -94,7 +94,7 @@ class realtorCom:
                         if "History" in str(nestedRow.get("href")) and key in str(nestedRow.get("href")):
                             self.__idDict[key] = {"id": value, "link": nestedRow.get("href")}
                 except Exception as e:
-                    print(f"Realtor/Core.py | Error = {e} | Error while getting document links for realtor.com")
+                    print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Realtor/Core.py | Error = {e} | Error while getting document links for realtor.com")
                     RESTError(801)
                     raise SystemExit(801)
 

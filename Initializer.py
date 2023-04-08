@@ -12,7 +12,7 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+import datetime
 import os
 from pathlib import Path
 
@@ -86,34 +86,34 @@ class initializer:
             event, values = window.read()
 
             if event == "Construction Monitor":
-                print("\n-------------Initiating Construction Monitor API Call-----------------")
+                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Construction Monitor API Call-----------------")
                 ConstructionMonitorMain(ConstructionMonitorInit())
-                print("-------------Closing Construction Monitor API Call---------------------\n")
+                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Construction Monitor API Call---------------------\n")
             elif event == "Utah Real Estate":
-                print("\n-------------Initiating Utah Real Estate API Call-----------------")
+                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Utah Real Estate API Call-----------------")
                 UtahRealEstateMain(UtahRealEstateInit())
-                print("-------------Closing Utah Real Estate API Call---------------------\n")
+                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Utah Real Estate API Call---------------------\n")
             elif event == "Realtor.Com":
-                print("\n-------------Initiating Realtor.com API Call-----------------")
+                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Realtor.com API Call-----------------")
                 realtorCom()
-                print("-------------Closing Realtor.com API Call---------------------\n")
+                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Realtor.com API Call---------------------\n")
             elif event == "Census":
-                print("\n-------------Initiating Census API Call-----------------")
+                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Census API Call-----------------")
                 Cencus()
-                print("-------------Closing Census API Call---------------------\n")
+                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Census API Call---------------------\n")
             elif event == "Authorization Utility":
-                print("\n-------------Initiating Authorization Utility-----------------")
+                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Authorization Utility-----------------")
                 AuthUtil()
-                print("-------------Closing Census API Call---------------------\n")
+                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Authorization Utility---------------------\n")
             elif event == "Open Data Folder":
-                print("\n-------------Data Folder Opened-----------------")
+                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Data Folder Opened-----------------")
                 try:
                     os.system(f"start {Path(os.path.expanduser('~/Documents')).joinpath('GardnerUtilData')}")
                 except:
                     try:
                         os.system(f"start {Path(os.path.expanduser('~/Documents'))}")
                     except Exception as e:
-                        print(f"Initializer.py | Error = {e} | Documents folder not found")
+                        print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Initializer.py | Error = {e} | Documents folder not found")
                         PopupWrapped(
                             text="Documents folder not found. Please create a Windows recognized documents folder",
                             windowType="errorLarge")
@@ -122,7 +122,7 @@ class initializer:
                 try:
                     break
                 except Exception as e:
-                    print(f"Initializer.py | Error = {e} | Error on program exit, for logging purposes only.")
+                    print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Initializer.py | Error = {e} | Error on program exit, for logging purposes only.")
                     break
             elif event == sg.WIN_CLOSED or event == "Quit":
                 break

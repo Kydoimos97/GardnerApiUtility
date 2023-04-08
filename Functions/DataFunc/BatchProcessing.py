@@ -12,7 +12,7 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+import datetime
 import math
 from datetime import date
 
@@ -43,7 +43,7 @@ Doc Author:
     except Exception as e:
         # Logging
         print(
-            f"BatchProcessing.py |Error = {e} | Batch Calculator document limit overwritten to 200 from input")
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | BatchProcessing.py |Error = {e} | Batch Calculator document limit overwritten to 200 from input")
         document_limit = 200
 
     return int(math.ceil(float(TotalRecords) / float(document_limit)))
@@ -152,7 +152,7 @@ class BatchProcessorConstructionMonitor:
                 except KeyError as e:
                     # Logging
                     print(
-                        f"BatchProcessing.py |Error = {e} | Count Request Error Server Response: {response.json()} | Batch = {record} | Parameters = {self.__parameterDict} | Headers = {self.__headerDict}")
+                        f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | BatchProcessing.py |Error = {e} | Count Request Error Server Response: {response.json()} | Batch = {record} | Parameters = {self.__parameterDict} | Headers = {self.__headerDict}")
                     continue
 
                 valueObject.setValue(valueObject.getValue() + 1)

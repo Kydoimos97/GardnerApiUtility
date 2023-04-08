@@ -12,6 +12,8 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+import datetime
+
 from API_Calls.Functions.ErrorFunc.ErrorPopup import ErrorPopup
 from API_Calls.Functions.ErrorFunc.ErrorPrint import RESTErrorPrint
 
@@ -38,116 +40,116 @@ Doc Author:
         status_code = response.status_code
 
     if status_code == 200:
-        textString = f"Status Code = {status_code} | Api Request completed successfully"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Api Request completed successfully"
         print(textString)
         pass
     elif status_code == 301:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Endpoint redirection; check domain name and endpoint name"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Endpoint redirection; check domain name and endpoint name"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 400:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Bad Request; check input arguments"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Bad Request; check input arguments"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 401:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Authentication Error: No keys found"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Authentication Error: No keys found"
         ErrorPopup(textString)
         raise PermissionError(textString)
     elif status_code == 402:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Authentication Error: Cannot access decryption Key in %appdata%/roaming/GardnerUtil/security"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Authentication Error: Cannot access decryption Key in %appdata%/roaming/GardnerUtil/security"
         ErrorPopup(textString)
         raise PermissionError(textString)
     elif status_code == 403:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Access Error: the resource you are trying to access is forbidden"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Access Error: the resource you are trying to access is forbidden"
         ErrorPopup(textString)
         raise PermissionError(textString)
     elif status_code == 404:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Resource not found: the resource you are trying to access does not exist on the server"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Resource not found: the resource you are trying to access does not exist on the server"
         ErrorPopup(textString)
         raise NameError(textString)
     elif status_code == 405:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Method is not valid, request rejected by server"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Method is not valid, request rejected by server"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 408:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Requests timeout by server"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Requests timeout by server"
         ErrorPopup(textString)
         raise TimeoutError(textString)
     elif status_code == 503:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | The resource is not ready for the get request"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | The resource is not ready for the get request"
         ErrorPopup(textString)
         raise SystemError(textString)
     elif status_code == 701:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Error in coercing icon to bits (Imageloader.py)"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Error in coercing icon to bits (Imageloader.py)"
         ErrorPopup(textString)
         raise TypeError(textString)
     elif status_code == 801:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Resource Error, HTML cannot be parsed the website's HTML source might be changed"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Resource Error, HTML cannot be parsed the website's HTML source might be changed"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 790:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Requests timeout within requests"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Requests timeout within requests"
         ErrorPopup(textString)
         raise TimeoutError(textString)
     elif status_code == 791:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Too many redirects, Bad url"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Too many redirects, Bad url"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 990:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | No password input"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | No password input"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 991:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | No username input"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | No username input"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 992:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | No authentication input (Basic or User/PW)"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | No authentication input (Basic or User/PW)"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 993:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Submission Error, input values could not be coerced to arguments"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Submission Error: input values could not be coerced to arguments"
         ErrorPopup(textString)
-        raise ValueError(textString)
+        print(ValueError(textString))
     elif status_code == 994:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Submission Error, server returned no documents"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Submission Error: server returned no documents"
         ErrorPopup(textString)
         raise ValueError(textString)
     elif status_code == 1000:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Catastrophic Error"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Catastrophic Error"
         ErrorPopup(textString)
         raise SystemError(textString)
     elif status_code == 1001:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Main Function Error Break"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | Main Function Error Break"
         raise SystemError(textString)
     elif status_code == 1100:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | User has cancelled the program execution"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | User has cancelled the program execution"
         raise KeyboardInterrupt(textString)
     elif status_code == 1101:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | User returned to main menu using the exit button"
+        textString = f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | User returned to main menu using the exit button"
         print(textString)
     else:
         RESTErrorPrint(response)
-        raise Exception(f"Status Code = {status_code} | An unknown exception occurred")
+        raise Exception(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Status Code = {status_code} | An unknown exception occurred")

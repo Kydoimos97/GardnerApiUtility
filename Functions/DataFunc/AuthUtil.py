@@ -14,6 +14,7 @@
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 import ctypes
+import datetime
 import json
 import os
 from pathlib import Path
@@ -95,7 +96,7 @@ class AuthUtil:
             except Exception as e:
                 # Logging
                 print(
-                    f"Authutil.py | Error = {e} | Error in removing auth.json file - This can be due to the file not existing. Continuing...")
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Authutil.py | Error = {e} | Error in removing auth.json file - This can be due to the file not existing. Continuing...")
                 pass
 
             f = open(self.filePath.joinpath("auth.json"), "wb")
@@ -109,7 +110,7 @@ class AuthUtil:
         except Exception as e:
             # Logging
             print(
-                f"Authutil.py |Error = {e} | Error when setting the key file as hidden. This is a common problem due to permission errors. Continuing...")
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Authutil.py |Error = {e} | Error when setting the key file as hidden. This is either a Permission error or Input Error. Continuing...")
             pass
 
     def __SetValues(self, values):
@@ -148,7 +149,7 @@ class AuthUtil:
             except Exception as e:
                 # Logging
                 print(
-                    f"Authutil.py |Error = {e} | Error decoding Utah Real Estate Key. Continuing but this should be resolved if URE functionality will be accessed")
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Authutil.py |Error = {e} | Error decoding Utah Real Estate Key. Continuing but this should be resolved if URE functionality will be accessed")
                 ureCurrent = None
 
             try:
@@ -156,7 +157,7 @@ class AuthUtil:
             except Exception as e:
                 # Logging
                 print(
-                    f"Authutil.py |Error = {e} | Error decoding Construction Monitor Key. Continuing but this should be resolved if CM functionality will be accessed")
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Authutil.py |Error = {e} | Error decoding Construction Monitor Key. Continuing but this should be resolved if CM functionality will be accessed")
                 cmCurrent = None
 
         if values["-ureAuth-"] != "":
@@ -222,7 +223,6 @@ class AuthUtil:
                 except Exception as e:
                     print(e)
                     RESTError(993)
-                    raise SystemExit(933)
                 finally:
                     pass
             elif event == sg.WIN_CLOSED or event == "Quit":

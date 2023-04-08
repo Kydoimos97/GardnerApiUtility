@@ -67,7 +67,7 @@ class ConstructionMonitorInit:
                     self.auth_key = fernet.decrypt(authDict["cm"]["auth"]).decode()
                     passFlag = True
                 except Exception as e:
-                    print(f"ConstructionMonitor/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
+                    print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | ConstructionMonitor/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
                     AuthUtil()
             else:
                 AuthUtil()
@@ -258,7 +258,7 @@ class ConstructionMonitorMain:
             # This allows for user cancellation of the program using the quit button
             if "'NoneType' object has no attribute 'json'" in str(getattr(e, 'message', repr(e))):
                 RESTError(1101)
-                print(f"Error {e}")
+                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Error {e}")
                 pass
             elif e is not None:
                 print(
@@ -299,7 +299,7 @@ class ConstructionMonitorMain:
         if self.__batches != 0:
             startTime = datetime.datetime.now().replace(microsecond=0)
             BatchInputGui(self.__batches)
-            print(f"Request for {self.__batches} Batches sent to server")
+            print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} Batches sent to server")
             BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                               ParameterDict=self.__parameterDict,
                                               HeaderDict=self.__headerDict,
@@ -308,7 +308,7 @@ class ConstructionMonitorMain:
                                               Type="construction_monitor")
             BatchGuiObject.BatchGuiShow()
             self.dataframe = BatchGuiObject.dataframe
-            print(f"Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
+            print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
             FileSaver("cm", self.dataframe, self.__appendFile)
         else:
             RESTError(994)

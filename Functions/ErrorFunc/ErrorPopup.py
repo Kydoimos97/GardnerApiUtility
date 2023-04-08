@@ -31,6 +31,6 @@ Doc Author:
     Willem van der Schans, Trelent AI
 """
     PopupWrapped(
-        f"Error: {textString} \n"
+        f"ERROR @ {textString} \n"
         f"Log folder will be opened upon program exit",
         windowType="FatalErrorLarge")
