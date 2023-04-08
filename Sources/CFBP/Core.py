@@ -1,5 +1,6 @@
 import threading
 from datetime import date
+
 import pandas as pd
 import requests
 
@@ -58,7 +59,6 @@ class Cencus:
     """
         uiObj = PopupWrapped(text="Cenus Request running", windowType="progress", error=None)
 
-       
         threadGui = threading.Thread(target=self.__dataGetter,
                                      daemon=False)
         threadGui.start()
@@ -87,7 +87,6 @@ class Cencus:
 
         link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?"
 
-       
         if self.state_arg is None:
             self.state_arg = "UT"
         else:
@@ -101,11 +100,9 @@ class Cencus:
         passFlag = False
 
         while not passFlag:
-           
+
             self.link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?" + f"states={self.state_arg}" + f"&years={self.year_arg}"
-           
-           
-           
+
             response = requests.get(self.link)
 
             if response.status_code == 400:
@@ -114,5 +111,4 @@ class Cencus:
             else:
                 passFlag = True
 
-       
         RESTError(response)

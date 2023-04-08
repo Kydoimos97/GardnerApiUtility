@@ -14,6 +14,7 @@
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 from API_Calls.Functions.ErrorFunc.ErrorPrint import RESTErrorPrint
+from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
 def RESTError(response):
@@ -31,6 +32,10 @@ Returns:
 Doc Author:
     Willem van der Schans, Trelent AI
 """
+
+    PopupWrapped(f"The program ran into an error with code {response}. \n The log folder will attempt to open upon exiting the program.",
+                 windowType="FatalErrorLarge")
+
     if isinstance(response, int):
         status_code = response
     else:
@@ -48,6 +53,8 @@ Doc Author:
     elif status_code == 401:
         RESTErrorPrint(response)
         raise PermissionError(f"Status Code = {status_code} | Authentication Error: use get_request_auth")
+    elif status_code == 402:
+        RESTErrorPrint(PermissionError(f"Status Code = {status_code} | Authentication Error: Cannot access decryption Key in %appdata%/gardnerutil/security"))
     elif status_code == 403:
         RESTErrorPrint(response)
         raise PermissionError(f"Status Code = {status_code} | Access Error: the resource you are trying to access "
@@ -58,24 +65,32 @@ Doc Author:
                         f"does not exist on the server")
     elif status_code == 405:
         RESTErrorPrint(response)
-        raise SystemError(f"Status Code = {status_code} | Method is not valid, request rejected by server")
+        raise ValueError(f"Status Code = {status_code} | Method is not valid, request rejected by server")
     elif status_code == 408:
         RESTErrorPrint(response)
-        raise SystemError(f"Status Code = {status_code} | Requests timeout by server")
+        raise TimeoutError(f"Status Code = {status_code} | Requests timeout by server")
     elif status_code == 503:
         RESTErrorPrint(response)
         raise SystemError(f"Status Code = {status_code} | The resource is not ready for the get request")
-
+    elif status_code == 701:
+        RESTErrorPrint(response)
+        raise TypeError(f"Status Code = {status_code} | Error in coercing icon to bits (Imageloader.py)")
+    elif status_code == 801:
+        raise (ValueError(
+            f"Status Code = {status_code} | Resource Error, HTML cannot be parsed the website's HTML source might be changed"))
     elif status_code == 790:
-        raise SystemError(f"Status Code = {status_code} | Requests timeout within requests")
+        raise TimeoutError(f"Status Code = {status_code} | Requests timeout within requests")
     elif status_code == 791:
-        raise SystemError(f"Status Code = {status_code} | Too many redirects, bad url")
+        raise ValueError(f"Status Code = {status_code} | Too many redirects, Bad url")
     elif status_code == 990:
-        raise SystemError(f"Status Code = {status_code} | No password input")
+        raise ValueError(f"Status Code = {status_code} | No password input")
     elif status_code == 991:
-        raise SystemError(f"Status Code = {status_code} | No username input")
+        raise ValueError(f"Status Code = {status_code} | No username input")
     elif status_code == 992:
-        raise SystemError(f"Status Code = {status_code} | No authentication input (Basic or User/PW)")
+        raise ValueError(f"Status Code = {status_code} | No authentication input (Basic or User/PW)")
+    elif status_code == 993:
+        raise(ValueError(
+            f"Status Code = {status_code} | Submission Error, input values could not be cooerced to arguments"))
     elif status_code == 1000:
         raise SystemError(f"Status Code = {status_code} | Catastrophic Error")
     elif status_code == 1100:

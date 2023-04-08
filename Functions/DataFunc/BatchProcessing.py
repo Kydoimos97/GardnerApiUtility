@@ -40,7 +40,9 @@ Doc Author:
 """
     try:
         document_limit = Argument_Dict["size"]
-    except:
+    except Exception as e:
+        # Logging
+        print(f"BatchProcessing.py |Error = {e} | Batch Calculator document limit overwritten to 200 from input {Argument_Dict['size']}")
         document_limit = 200
 
     return int(math.ceil(float(TotalRecords) / float(document_limit)))
@@ -147,8 +149,9 @@ class BatchProcessorConstructionMonitor:
                 try:
                     response = response.json()['hits']['hits']
                 except KeyError as e:
+                    # Logging
                     print(
-                        f"Server Response: {response.json()} | Error: {e} | Batch = {record} | Parameters = {self.__parameterDict} | Headers = {self.__headerDict}")
+                        f"BatchProcessing.py |Error = {e} | Count Request Error Server Response: {response.json()} | Batch = {record} | Parameters = {self.__parameterDict} | Headers = {self.__headerDict}")
                     continue
 
                 valueObject.setValue(valueObject.getValue() + 1)

@@ -4,25 +4,25 @@ import os
 import threading
 from datetime import date, timedelta
 from pathlib import Path
+
 import PySimpleGUI as sg
 import requests
 from cryptography.fernet import Fernet
 
+from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
 from API_Calls.Functions.DataFunc.BatchProcessing import BatchCalculator
+from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.BatchGui import BatchInputGui
 from API_Calls.Functions.Gui.BatchProgressGUI import BatchProgressGUI
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
-from Functions.DataFunc.AuthUtil import AuthUtil
-from Functions.DataFunc.FileSaver import FileSaver
-from Functions.ErrorFunc.RESTError import RESTError
 
 
 class UtahRealEstateInit:
 
     def __init__(self):
 
-       
         """
     The __init__ function is called when the class is instantiated.
     It sets up the initial state of the object.
@@ -45,12 +45,10 @@ class UtahRealEstateInit:
         self.file_name = None
         self.append_file = None
 
-       
         self.__ShowGui(self.__CreateFrame(), "Utah Real Estate")
 
     def __ShowGui(self, layout, text):
 
-       
         """
     The __ShowGui function is a helper function that creates the GUI window and displays it to the user.
     It takes in two parameters: layout, which is a list of lists containing all of the elements for each row;
@@ -72,20 +70,19 @@ class UtahRealEstateInit:
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
 
-       
         while True:
             event, values = window.read()
-           
-           
+
             if event == "Submit":
                 try:
                     self.__SetValues(values)
                     break
                 except Exception as e:
                     print(e)
+                    RESTError(993)
                     break
             elif event == sg.WIN_CLOSED or event == "Quit":
-               
+
                 break
 
         window.close()
@@ -111,7 +108,7 @@ class UtahRealEstateInit:
 
         line0 = [sg.Image(ImageLoader("logo.png")),
                  sg.Push(),
-                 sg.Text("Construction Monitor Utility", font=("Helvetica", 12, "bold"), justification="center"),
+                 sg.Text("Utah Real Estate Utility", font=("Helvetica", 12, "bold"), justification="center"),
                  sg.Push(),
                  sg.Push()]
 
@@ -163,7 +160,6 @@ class UtahRealEstateInit:
 
     def __SetValues(self, values):
 
-       
         """
     The __SetValues function is used to set the values of the variables that are used in the
        __GetData function. The values are passed from a dictionary called 'values' which is created
@@ -182,22 +178,18 @@ class UtahRealEstateInit:
     """
         self.StandardStatus = values["-status-"]
 
-       
         self.ListedOrModified = values["-type-"]
 
-       
         if values["-DateStart-"] != "":
             self.dateStart = values["-DateStart-"]
         else:
             self.dateStart = (date.today() - timedelta(days=14)).strftime("%Y-%m-%d")
 
-       
         if values["-DateEnd-"] != "":
             self.dateEnd = values["-DateEnd-"]
         else:
             self.dateEnd = (date.today()).strftime("%Y-%m-%d")
 
-       
         if values['-selectionFlag-']:
             self.select = "ListingKeyNumeric,StateOrProvince,CountyOrParish,City,PostalCity,PostalCode,SubdivisionName," \
                           "StreetName,StreetNumber,ParcelNumber,UnitNumber,UnparsedAddress,MlsStatus,CloseDate," \
@@ -210,7 +202,6 @@ class UtahRealEstateInit:
         else:
             self.select = None
 
-       
         if values["-append_file-"] != "":
             self.append_file = str(values["-append_file-"])
         else:
@@ -221,7 +212,6 @@ class UtahRealEstateMain:
 
     def __init__(self, siteClass):
 
-       
         """
     The __init__ function is the first function that runs when an object of this class is created.
     It sets up all the variables and functions needed for this class to work properly.
@@ -251,20 +241,19 @@ class UtahRealEstateMain:
             "Security").joinpath("auth.json")
         self.key = None
 
-
-       
         try:
             self.mainFunc()
         except KeyError as e:
             if "ListedOrModified" in str(getattr(e, 'message', repr(e))):
                 pass
         except AttributeError as e:
-            if "_UtahRealEstateMain__restDomain":
-                PopupWrapped(text="Authentication Error", windowType="permerror", error=401)
-            else:
-                raise e
+                print(
+                    f"UtahRealEstate/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
+                PopupWrapped(text="Authentication Error | Please update keys in AuthUtil", windowType="error", error=401)
+                pass
         except Exception as e:
-            raise e
+            print(e)
+            RESTError(1000)
 
     def mainFunc(self):
 
@@ -284,7 +273,6 @@ class UtahRealEstateMain:
     """
         passFlag = False
 
-       
         while not passFlag:
             if os.path.isfile(self.keyPath) and os.path.isfile(self.filePath):
                 try:
@@ -298,19 +286,19 @@ class UtahRealEstateMain:
                     self.__headerDict = {authDict["ure"]["parameter"]: authkey}
                     passFlag = True
                 except:
+                    print(f"UtahRealEstate/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
                     AuthUtil()
             else:
                 AuthUtil()
 
         self.__ParameterCreator()
 
-       
         self.__getCountUI()
-       
+
         self.__batches = BatchCalculator(self.__record_val, None)
-       
+
         BatchInputGui(self.__batches)
-       
+
         BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                           ParameterDict=self.__parameterString,
                                           HeaderDict=self.__headerDict,
@@ -340,11 +328,9 @@ class UtahRealEstateMain:
         __Source_dict = {key: value for key, value in self.__siteClass.__dict__.items() if
                          not key.startswith('__') and not callable(key)}
 
-       
         self.__appendFile = __Source_dict["append_file"]
         __Source_dict.pop("append_file")
 
-       
         temp_dict = copy.copy(__Source_dict)
         for key, value in temp_dict.items():
             if value is None:
@@ -352,7 +338,6 @@ class UtahRealEstateMain:
             else:
                 pass
 
-       
         if __Source_dict["ListedOrModified"] == "Listing Date":
             filter_string = f"$filter=ListingContractDate%20gt%20{__Source_dict['dateStart']}%20and%20ListingContractDate%20le%20{__Source_dict['dateEnd']}"
         elif __Source_dict["ListedOrModified"] == "Modification Date":
@@ -388,19 +373,20 @@ class UtahRealEstateMain:
         try:
             __count_resp = requests.get(f"{self.__restDomain}{self.__parameterString}&$count=true",
                                         headers=self.__headerDict)
-           
+
             if __count_resp.status_code != 200:
                 RESTError(__count_resp)
 
-           
             self.__record_val = int(__count_resp.json()["@odata.count"])
 
-       
-        except requests.exceptions.Timeout:
+        except requests.exceptions.Timeout as e:
+            print(e)
             RESTError(790)
-        except requests.exceptions.TooManyRedirects:
+        except requests.exceptions.TooManyRedirects as e:
+            print(e)
             RESTError(791)
-        except requests.exceptions.RequestException:
+        except requests.exceptions.RequestException as e:
+            print(e)
             RESTError(1000)
 
     def __getCountUI(self):
@@ -421,7 +407,6 @@ class UtahRealEstateMain:
     """
         uiObj = PopupWrapped(text="Batch request running", windowType="progress", error=None)
 
-       
         threadGui = threading.Thread(target=self.__getCount,
                                      daemon=False)
         threadGui.start()

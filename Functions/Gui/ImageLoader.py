@@ -21,6 +21,7 @@ from os.path import join, normpath
 from PIL import Image
 
 
+
 def ImageLoader(file):
     """
 The ImageLoader function takes in a file name and returns the image as a base64 encoded string.
@@ -35,16 +36,19 @@ Returns:
 Doc Author:
     Willem van der Schans, Trelent AI
 """
-    __path = normpath(join(str(os.getcwd().split("API_Calls", 1)[0]), "API_Calls"))
-    __path = normpath(join(__path, "Images"))
-    __path = join(__path, file).replace("\\", "/")
+    try:
+        __path = normpath(join(str(os.getcwd().split("API_Calls", 1)[0]), "API_Calls"))
+        __path = normpath(join(__path, "Images"))
+        __path = join(__path, file).replace("\\", "/")
 
-    image = Image.open(__path)
+        image = Image.open(__path)
 
-    __buff = BytesIO()
+        __buff = BytesIO()
 
-    image.save(__buff, format="png")
+        image.save(__buff, format="png")
 
-    img_str = base64.b64encode(__buff.getvalue())
+        img_str = base64.b64encode(__buff.getvalue())
 
-    return img_str
+        return img_str
+    except Exception as e:
+        raise e

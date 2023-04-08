@@ -21,6 +21,7 @@ from pathlib import Path
 import PySimpleGUI as sg
 from cryptography.fernet import Fernet
 
+from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
@@ -80,7 +81,8 @@ class AuthUtil:
                 self.k = f.readline()
                 f.close()
             except Exception as e:
-                raise e
+                print(e)
+                RESTError(402)
         else:
             self.k = Fernet.generate_key()
             f = open(self.keyPath.joinpath("3v45wfvw45wvc4f35.av3ra3rvavcr3w"), "wb")
@@ -89,7 +91,9 @@ class AuthUtil:
 
             try:
                 os.remove(self.filePath.joinpath("auth.json"))
-            except:
+            except Exception as e:
+                #Logging
+                print(f"Authutil.py | Error = {e} | Error in removing auth.json file - This can be due to the file not existing. Continuing...")
                 pass
 
             f = open(self.filePath.joinpath("auth.json"), "wb")
@@ -100,7 +104,9 @@ class AuthUtil:
 
         try:
             ctypes.windll.kernel32.SetFileAttributesW(self.keyPath.joinpath("3v45wfvw45wvc4f35.av3ra3rvavcr3w"), 2)
-        except Exception as e:
+        except Exception:
+            #Logging
+            print(f"Authutil.py |Error = {e} | Error when setting the key file as hidden. This is a common problem due to permission errors. Continuing...")
             pass
 
     def __SetValues(self, values):
@@ -136,18 +142,19 @@ class AuthUtil:
         if fileFlag:
             try:
                 ureCurrent = fernet.decrypt(keyFile["ure"]['auth'].decode())
-            except:
+            except Exception as e:
+                #Logging
+                print(
+                    f"Authutil.py |Error = {e} | Error decoding Utah Real Estate Key. Continuing but this should be resolved if URE functionality will be accessed")
                 ureCurrent = None
 
             try:
                 cmCurrent = fernet.decrypt(keyFile["cm"]['auth'].decode())
-            except:
+            except Exception as e:
+                #Logging
+                print(
+                    f"Authutil.py |Error = {e} | Error decoding Construction Monitor Key. Continuing but this should be resolved if CM functionality will be accessed")
                 cmCurrent = None
-
-        print(cmCurrent)
-        print(self.passFlagCm)
-        print(ureCurrent)
-        print(self.passFlagUre)
 
         if values["-ureAuth-"] != "":
             self.jsonDict.update(
@@ -210,7 +217,8 @@ class AuthUtil:
                 try:
                     self.__SetValues(values)
                 except Exception as e:
-                    raise e
+                    print(e)
+                    RESTError(993)
                 finally:
                     pass
             elif event == sg.WIN_CLOSED or event == "Quit":

@@ -9,21 +9,20 @@ import PySimpleGUI as sg
 import requests
 from cryptography.fernet import Fernet
 
+from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
 from API_Calls.Functions.DataFunc.BatchProcessing import BatchCalculator
+from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.BatchGui import BatchInputGui
 from API_Calls.Functions.Gui.BatchProgressGUI import BatchProgressGUI
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
-from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
-from API_Calls.Functions.DataFunc.FileSaver import FileSaver
-from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 
 
 class ConstructionMonitorInit:
 
     def __init__(self):
 
-       
         """
     The __init__ function is called when the class is instantiated.
     It sets up the variables that will be used by other functions in this class.
@@ -47,36 +46,34 @@ class ConstructionMonitorInit:
         self.ui_flag = None
         self.append_file = None
 
-       
         passFlag = False
 
-       
         while not passFlag:
             if os.path.isfile(Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Security')).joinpath(
-            "3v45wfvw45wvc4f35.av3ra3rvavcr3w")) and os.path.isfile(Path(os.path.expanduser('~/Documents')).joinpath("GardnerUtilData").joinpath(
-            "Security").joinpath("auth.json")):
+                    "3v45wfvw45wvc4f35.av3ra3rvavcr3w")) and os.path.isfile(
+                Path(os.path.expanduser('~/Documents')).joinpath("GardnerUtilData").joinpath(
+                    "Security").joinpath("auth.json")):
                 try:
                     f = open(Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Security')).joinpath(
-            "3v45wfvw45wvc4f35.av3ra3rvavcr3w"), "rb")
+                        "3v45wfvw45wvc4f35.av3ra3rvavcr3w"), "rb")
                     key = f.readline()
                     f.close()
                     f = open(Path(os.path.expanduser('~/Documents')).joinpath("GardnerUtilData").joinpath(
-            "Security").joinpath("auth.json"), "rb")
+                        "Security").joinpath("auth.json"), "rb")
                     authDict = json.load(f)
                     fernet = Fernet(key)
                     self.auth_key = fernet.decrypt(authDict["cm"]["auth"]).decode()
                     passFlag = True
                 except Exception as e:
+                    print(f"ConstructionMonitor/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
                     AuthUtil()
             else:
                 AuthUtil()
-
 
         self.__ShowGui(self.__CreateFrame(), "Construction Monitor Utility")
 
     def __ShowGui(self, layout, text):
 
-       
         """
     The __ShowGui function is the main function that creates and displays the GUI.
     It takes in a layout, which is a list of lists containing all of the elements to be displayed on screen.
@@ -97,17 +94,16 @@ class ConstructionMonitorInit:
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
 
-       
         while True:
             event, values = window.read()
-           
-           
+
             if event == "Submit":
                 try:
                     self.__SetValues(values)
                     break
                 except Exception as e:
                     print(e)
+                    RESTError(993)
                     break
             elif event == sg.WIN_CLOSED or event == "Quit":
                 break
@@ -152,35 +148,30 @@ class ConstructionMonitorInit:
                           size=(20, 1)),
                  sg.CalendarButton("Select Date", format="%Y-%m-%d", key='-start_date-', target="-EndCal-")]
 
-        line5 = [[sg.Text("Column Sub-Selection : ", size=(23, None), justification="Right"),
-                  sg.Checkbox(text="", default=True, key="-select_columns-", size=(15, 1)),
-                  sg.Push()]]
+        line5 = [sg.HSeparator()]
 
-        line6 = [sg.HSeparator()]
-
-        line7 = [sg.Push(),
+        line6 = [sg.Push(),
                  sg.Text("File Settings", font=("Helvetica", 12, "bold"), justification="center"),
                  sg.Push()]
 
-        line8 = [sg.HSeparator()]
+        line7 = [sg.HSeparator()]
 
-        line9 = [sg.Text("Appending File : ", size=(15, None), justification="Right"),
-                  sg.Input(default_text="", key="-AppendingFile-", disabled=True,
-                           size=(20, 1)),
-                  sg.FileBrowse("Browse File", file_types=[("csv files", "*.csv")], key='-append_file-',
-                                target="-AppendingFile-")]
+        line8 = [sg.Text("Appending File : ", size=(15, None), justification="Right"),
+                 sg.Input(default_text="", key="-AppendingFile-", disabled=True,
+                          size=(20, 1)),
+                 sg.FileBrowse("Browse File", file_types=[("csv files", "*.csv")], key='-append_file-',
+                               target="-AppendingFile-")]
 
-        line10 = [sg.HSeparator()]
+        line9 = [sg.HSeparator()]
 
-        line11 = [sg.Push(), sg.Submit(focus=True), sg.Quit(), sg.Push()]
+        line10 = [sg.Push(), sg.Submit(focus=True), sg.Quit(), sg.Push()]
 
-        layout = [line00, line0, line1, line3, line4, line5, line6, line7, line8, line9, line10, line11]
+        layout = [line00, line0, line1, line3, line4, line5, line6, line7, line8, line9, line10]
 
         return layout
 
     def __SetValues(self, values):
 
-       
         """
     The __SetValues function is used to set the values of the variables that are used in the __GetData function.
     The __SetValues function takes a dictionary as an argument, and then sets each variable based on what is passed into
@@ -198,35 +189,25 @@ class ConstructionMonitorInit:
     """
         self.size = 1000
 
-       
         if values["-Cal-"] != "":
             self.dateStart = values["-Cal-"]
         else:
             self.dateStart = (date.today() - timedelta(days=14)).strftime("%Y-%m-%d")
 
-       
         if values["-EndCal-"] != "":
             self.dateEnd = values["-EndCal-"]
         else:
             self.dateEnd = date.today().strftime("%Y-%m-%d")
 
-       
         self.rest_domain = "https://api.constructionmonitor.com/v2/powersearch/?"
 
-       
-        if values["-select_columns-"] == "True":
-            self.SourceInclude = "state,county,city,description,valuation,sqft,units,permitdate,lastupdated," \
-                                 "permitstatus "
-        else:
-            self.SourceInclude = None
+        self.SourceInclude = None
 
-       
         if values["-append_file-"] != "":
             self.append_file = str(values["-append_file-"])
         else:
             self.append_file = None
 
-       
         self.ui_flag = True
 
 
@@ -234,7 +215,6 @@ class ConstructionMonitorMain:
 
     def __init__(self, siteClass):
 
-       
         """
     The __init__ function is the first function that runs when an object of this class is created.
     It sets up all the variables and functions needed for this class to run properly.
@@ -256,25 +236,24 @@ class ConstructionMonitorMain:
         self.__columnSelection = None
         self.__appendFile = None
 
-       
         self.__parameterDict = {}
         self.__search_id = None
         self.__record_val = 0
         self.__batches = 0
 
-       
         self.__ui_flag = None
 
-       
         self.dataframe = None
 
         try:
             self.mainFunc()
         except SystemError as e:
             if "Status Code = 1000 | Catastrophic Error" in str(getattr(e, 'message', repr(e))):
+                print(f"ConstructionMonitor/Core.py | Error = {e} | Cooerced SystemError in ConstructionMonitorMain class")
                 pass
         except Exception as e:
-            raise e
+            print(e)
+            RESTError(1000)
 
     def mainFunc(self):
         """
@@ -296,14 +275,13 @@ class ConstructionMonitorMain:
     """
         self.__ParameterCreator()
 
-       
         self.__getCountUI()
-       
+
         self.__batches = BatchCalculator(self.__record_val, self.__parameterDict)
-       
+
         if self.__ui_flag:
             BatchInputGui(self.__batches)
-       
+
         BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                           ParameterDict=self.__parameterDict,
                                           HeaderDict=self.__headerDict,
@@ -333,7 +311,6 @@ class ConstructionMonitorMain:
         __Source_dict = {key: value for key, value in self.__siteClass.__dict__.items() if
                          not key.startswith('__') and not callable(key)}
 
-       
         self.__restDomain = __Source_dict["rest_domain"]
         __Source_dict.pop("rest_domain")
         self.__headerDict = {"Authorization": __Source_dict["auth_key"]}
@@ -345,7 +322,6 @@ class ConstructionMonitorMain:
         self.__appendFile = __Source_dict["append_file"]
         __Source_dict.pop("append_file")
 
-       
         temp_dict = copy.copy(__Source_dict)
         for key, value in temp_dict.items():
             if value is None:
@@ -354,8 +330,6 @@ class ConstructionMonitorMain:
                 pass
 
         self.__parameterDict = copy.copy(__Source_dict)
-
-   
 
     def __getCount(self):
         """
@@ -374,32 +348,31 @@ class ConstructionMonitorMain:
         __count_resp = None
 
         try:
-           
+
             __temp_param_dict = copy.copy(self.__parameterDict)
 
             __count_resp = requests.post(url=self.__restDomain,
                                          headers=self.__headerDict,
                                          json=__temp_param_dict)
 
-           
             if __count_resp.status_code != 200:
                 RESTError(__count_resp)
 
-       
-        except requests.exceptions.Timeout:
+
+        except requests.exceptions.Timeout as e:
+            print(e)
             RESTError(790)
-        except requests.exceptions.TooManyRedirects:
+        except requests.exceptions.TooManyRedirects as e:
+            print(e)
             RESTError(791)
-        except requests.exceptions.RequestException:
+        except requests.exceptions.RequestException as e:
+            print(e)
             RESTError(1000)
 
-       
         __count_resp = __count_resp.json()
 
-       
         self.__record_val = __count_resp["hits"]["total"]["value"]
 
-       
         del __count_resp, __temp_param_dict
 
     def __getCountUI(self):
@@ -421,7 +394,6 @@ class ConstructionMonitorMain:
         if self.__ui_flag:
             uiObj = PopupWrapped(text="Batch request running", windowType="progress", error=None)
 
-           
             threadGui = threading.Thread(target=self.__getCount,
                                          daemon=False)
             threadGui.start()

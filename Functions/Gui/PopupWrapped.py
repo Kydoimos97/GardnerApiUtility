@@ -12,8 +12,9 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+import os
 import time
+from pathlib import Path
 
 import PySimpleGUI as sg
 
@@ -78,23 +79,17 @@ class PopupWrapped():
                        sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
             __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
-        elif self.__type == "permnotice":
-            __Line1 = [sg.Push(),
-                       sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
-                       sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
-            __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "errorLarge":
             __Line1 = [sg.Push(),
                        sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
             __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
-        elif self.__type == "error":
+        elif self.__type == "FatalErrorLarge":
             __Line1 = [sg.Push(),
                        sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
-                       sg.Text(f"{self.__text}: {self.__error}", justification="center", key="-textField-"),
-                       sg.Push()]
-            __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
-        elif self.__type == "permerror":
+                       sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
+            __Line2 = [sg.Push(), sg.Ok(button_text="Exit", focus=True, size=(10, 1)), sg.Push()]
+        elif self.__type == "error":
             __Line1 = [sg.Push(),
                        sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
                        sg.Text(f"{self.__text}: {self.__error}", justification="center", key="-textField-"),
@@ -105,7 +100,7 @@ class PopupWrapped():
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
 
         if self.__type == "progress":
-            self.__layout = [__Line1, ]
+            self.__layout = [__Line1]
         else:
             self.__layout = [__Line1, __Line2]
 
@@ -152,16 +147,21 @@ class PopupWrapped():
                                          icon=ImageLoader("taskbar_icon.ico"),
                                          size=(290, 80))
 
-        if self.__type != "progress" or self.__type.startswith("perm"):
-            timer = 0
-            while timer < 100:
-                event, values = self.__windowObj.read()
-                if event == "Ok" or event == sg.WIN_CLOSED:
-                    break
+        while True:
+            event, values = self.__windowObj.read()
+            if event == "Ok" or event == sg.WIN_CLOSED:
+                break
 
-                time.sleep(0.1)
+        if self.__type == "FatalErrorLarge":
+            try:
+                os.system(
+                    f"start {Path(os.path.expandvars(r'%APPDATA%')).joinpath('GardnerUtilData').joinpath('Logs')}")
+            except Exception as e:
+                print(f"PopupWrapped.py | Error = {e} | Log Folder not found please search manually for %APPDATA%\GardnerUtil\Logs\n")
+                PopupWrapped(text="Log Folder not found please search manually for %APPDATA%\GardnerUtil\Logs\n",
+                             windowType="errorLarge")
 
-            self.__windowObj.close()
+        self.__windowObj.close()
 
     def stopWindow(self):
         """

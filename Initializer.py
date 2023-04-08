@@ -18,15 +18,15 @@ from pathlib import Path
 
 import PySimpleGUI as sg
 
+from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
 from API_Calls.Functions.ErrorFunc.Logger import logger
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
+from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
+from API_Calls.Sources.CFBP.Core import Cencus
 from API_Calls.Sources.ConstructionMonitor.Core import ConstructionMonitorInit, \
     ConstructionMonitorMain
 from API_Calls.Sources.Realtor.Core import realtorCom
 from API_Calls.Sources.UtahRealEstate.Core import UtahRealEstateMain, UtahRealEstateInit
-from Functions.DataFunc.AuthUtil import AuthUtil
-from Functions.Gui.PopupWrapped import PopupWrapped
-from Sources.CFBP.Core import Cencus
 
 
 class initializer:
@@ -97,17 +97,16 @@ class initializer:
                 except:
                     try:
                         os.system(f"start {Path(os.path.expanduser('~/Documents'))}")
-                    except:
-                        PopupWrapped(text="You don't have a documents folder!! \n"
-                                          "Something is seriously wrong with your file structure \n"
-                                          "The program will not work until such a folder is made",
+                    except Exception as e:
+                        print(f"Initializer.py | Error = {e} | Documents folder not found")
+                        PopupWrapped(text="Documents folder not found. Please create a Windows recognized documents folder",
                                      windowType="errorLarge")
 
             elif event in ('Exit', None):
                 try:
                     break
                 except Exception as e:
-                    print(e)
+                    print(f"Initializer.py | Error = {e} | Error on program exit, for logging purposes only.")
                     break
             elif event == sg.WIN_CLOSED or event == "Quit":
                 break

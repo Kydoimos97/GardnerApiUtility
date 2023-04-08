@@ -72,6 +72,13 @@ class FileSaver:
 
         if self.appendFlag:
             if self.primaryKey is not None:
+                # Due to low_memory loading the columns are not typed properly,
+                # since we are comparing this will be an issue since we need to do type comparisons,
+                # so here we coerce the types of the primary keys to numeric.
+                # If another primary key is ever chosen make sure to core to the right data type.
+                self.dataAppending[self.primaryKey] = pd.to_numeric(self.dataAppending[self.primaryKey])
+                self.data[self.primaryKey] = pd.to_numeric(self.data[self.primaryKey])
+
                 self.outputFrame = pd.concat([self.dataAppending, self.data]).drop_duplicates(subset=[self.primaryKey],
                                                                                               keep="last")
             else:
@@ -89,8 +96,14 @@ class FileSaver:
             if self.appendFlag:
                 PopupWrapped(text=f"File Appended and Saved to {self.docPath.joinpath(self.fileName)}",
                              windowType="noticeLarge")
+
+                # Logging
+                print(f"{method} API request Completed at {datetime.datetime.now()} | File Appended and Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
             else:
                 PopupWrapped(text=f"File Saved to {self.docPath.joinpath(self.fileName)}", windowType="noticeLarge")
+
+                # Logging
+                print(f"{method} API request Completed at {datetime.datetime.now()} | File Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
         else:
             pass
 

@@ -255,8 +255,8 @@ class BatchProgressGUI():
 
                 try:
                     self.__window.write_event_value('update--timer--', __timer_string)
-                except AttributeError:
-
+                except AttributeError as e:
+                    print(f"BatchProgressGUI.py | Error = {e} | Timer string attribute error, this is okay if the display looks good, this exception omits fatal crashes due to an static error")
                     break
 
                 __passed_time = __passed_time.total_seconds()

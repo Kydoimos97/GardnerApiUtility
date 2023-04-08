@@ -1,9 +1,12 @@
 import threading
+
 import pandas as pd
 import requests
 from bs4 import *
-from Functions.DataFunc.FileSaver import FileSaver
-from Functions.Gui.PopupWrapped import PopupWrapped
+
+from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.ErrorFunc.RESTError import RESTError
+from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
 class realtorCom:
@@ -58,7 +61,6 @@ class realtorCom:
     """
         uiObj = PopupWrapped(text="Request running", windowType="progress", error=None)
 
-       
         threadGui = threading.Thread(target=self.__dataUpdater,
                                      daemon=False)
         threadGui.start()
@@ -92,8 +94,10 @@ class realtorCom:
                         if "History" in str(nestedRow.get("href")) and key in str(nestedRow.get("href")):
                             self.__idDict[key] = {"id": value, "link": nestedRow.get("href")}
                 except Exception as e:
-                    print(e)
-                    pass
+                    print(f"Realtor/Core.py | Error = {e} | Error while getting document links for realtor.com")
+                    RESTError(801)
+
+
 
     def __dataUpdater(self):
 

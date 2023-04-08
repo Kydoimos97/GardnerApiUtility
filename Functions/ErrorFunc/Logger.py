@@ -58,11 +58,6 @@ Doc Author:
         mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
         return list(sorted(os.listdir(path), key=mtime))
 
-    del_list = sorted_ls(dir_path)[0:(len(sorted_ls(dir_path)) - 50)]
-    for file in del_list:
-        os.remove(dir_path.joinpath(file))
-        print(f"Log file {file} deleted")
-
     filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
         f"stdout{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
     sys.stdout = open(filePath, 'w')
@@ -70,3 +65,8 @@ Doc Author:
     filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
         f"stderr{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
     sys.stderr = open(filePath, 'w')
+
+    del_list = sorted_ls(dir_path)[0:(len(sorted_ls(dir_path)) - 50)]
+    for file in del_list:
+        os.remove(dir_path.joinpath(file))
+        print(f"Log file {file} deleted")
