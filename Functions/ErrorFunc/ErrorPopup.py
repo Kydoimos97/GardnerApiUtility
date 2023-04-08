@@ -12,43 +12,25 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-import base64
-import os
-from io import BytesIO
-from os.path import join, normpath
-
-from PIL import Image
+from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
-def ImageLoader(file):
+def ErrorPopup(textString):
     """
-The ImageLoader function takes in a file name and returns the image as a base64 encoded string.
-This is used to send images to the API for processing.
+The ErrorPopup function is used to display a popup window with an error message.
+It takes one argument, textString, which is the string that will be displayed in the popup window.
+The function also opens up the log folder upon program exit.
 
 Args:
-    file: Specify the image file to be loaded
+    textString: Display the error message
 
 Returns:
-    A base64 encoded image string
+    Nothing, but it does print an error message to the console
 
 Doc Author:
     Willem van der Schans, Trelent AI
 """
-    try:
-        __path = normpath(join(str(os.getcwd().split("API_Calls", 1)[0]), "API_Calls"))
-        __path = normpath(join(__path, "Images"))
-        __path = join(__path, file).replace("\\", "/")
-
-        image = Image.open(__path)
-
-        __buff = BytesIO()
-
-        image.save(__buff, format="png")
-
-        img_str = base64.b64encode(__buff.getvalue())
-
-        return img_str
-    except Exception as e:
-        # We cannot log this error like other errors due to circular imports
-        raise e
+    PopupWrapped(
+        f"Error: {textString} \n"
+        f"Log folder will be opened upon program exit",
+        windowType="FatalErrorLarge")

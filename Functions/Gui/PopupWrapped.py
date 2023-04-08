@@ -27,16 +27,13 @@ class PopupWrapped():
         """
     The __init__ function is the first function that gets called when an object of this class is created.
     It sets up all the variables and creates a window for us to use.
-
     Args:
         self: Represent the instance of the class
         text: Set the text of the window
         windowType: Determine what type of window to create
         error: Display the error message in the window
-
     Returns:
         Nothing
-
     Doc Author:
         Willem van der Schans, Trelent AI
     """
@@ -55,13 +52,10 @@ class PopupWrapped():
     The __createLayout function is used to create the layout of the window.
     The function takes class variables and returns a window layout.
     It uses a series of if statements to determine what type of window it is, then creates a layout based on that information.
-
     Args:
         self: Refer to the current instance of a class
-
     Returns:
         A list of lists
-
     Doc Author:
         Willem van der Schans, Trelent AI
     """
@@ -87,8 +81,8 @@ class PopupWrapped():
         elif self.__type == "FatalErrorLarge":
             __Line1 = [sg.Push(),
                        sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
-                       sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
-            __Line2 = [sg.Push(), sg.Ok(button_text="Exit", focus=True, size=(10, 1)), sg.Push()]
+                       sg.Text(self.__text, justification="left", key="-textField-"), sg.Push()]
+            __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "error":
             __Line1 = [sg.Push(),
                        sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
@@ -100,7 +94,7 @@ class PopupWrapped():
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
 
         if self.__type == "progress":
-            self.__layout = [__Line1]
+            self.__layout = [__Line1, ]
         else:
             self.__layout = [__Line1, __Line2]
 
@@ -108,13 +102,10 @@ class PopupWrapped():
         """
     The __createWindow function is used to create the window object that will be displayed.
     The function takes class variables and a window object. The function first calls __createLayout, which creates the layout for the window based on what type of message it is (error, notice, progress). Then it uses PySimpleGUI's Window class to create a new window with that layout and some other parameters such as title and icon. If this is not a progress bar or permanent message then we start a timer loop that waits until either 100 iterations have passed or an event has been triggered (such as clicking &quot;Ok&quot; or closing the window). Once one of these events occurs
-
     Args:
         self: Reference the instance of the class
-
     Returns:
         A window object
-
     Doc Author:
         Willem van der Schans, Trelent AI
     """
@@ -139,6 +130,12 @@ class PopupWrapped():
                                          keep_on_top=True,
                                          disable_close=False,
                                          icon=ImageLoader("taskbar_icon.ico"))
+        elif self.__type == "FatalErrorLarge":
+            self.__windowObj = sg.Window(title="Fatal Error", layout=self.__layout, finalize=True,
+                                         modal=True,
+                                         keep_on_top=True,
+                                         disable_close=False,
+                                         icon=ImageLoader("taskbar_icon.ico"))
         else:
             self.__windowObj = sg.Window(title=self.__type, layout=self.__layout, finalize=True,
                                          modal=True,
@@ -147,33 +144,33 @@ class PopupWrapped():
                                          icon=ImageLoader("taskbar_icon.ico"),
                                          size=(290, 80))
 
-        while True:
-            event, values = self.__windowObj.read()
-            if event == "Ok" or event == sg.WIN_CLOSED:
-                break
+        if self.__type != "progress" or self.__type.startswith("perm"):
+            timer = 0
+            while timer < 100:
+                event, values = self.__windowObj.read()
+                if event == "Ok" or event == sg.WIN_CLOSED:
+                    break
 
-        if self.__type == "FatalErrorLarge":
-            try:
-                os.system(
-                    f"start {Path(os.path.expandvars(r'%APPDATA%')).joinpath('GardnerUtilData').joinpath('Logs')}")
-            except Exception as e:
-                print(f"PopupWrapped.py | Error = {e} | Log Folder not found please search manually for %APPDATA%\GardnerUtil\Logs\n")
-                PopupWrapped(text="Log Folder not found please search manually for %APPDATA%\GardnerUtil\Logs\n",
-                             windowType="errorLarge")
+                time.sleep(0.1)
 
-        self.__windowObj.close()
+            if self.__type == "FatalErrorLarge":
+                try:
+                    os.system(
+                        f"start {Path(os.path.expandvars(r'%APPDATA%')).joinpath('GardnerUtil').joinpath('Logs')}")
+                except Exception as e:
+                    print(
+                        f"PopupWrapped.py | Error = {e} | Log Folder not found please search manually for %APPDATA%\Roaming\GardnerUtil\Logs\n")
+
+            self.__windowObj.close()
 
     def stopWindow(self):
         """
     The stopWindow function is used to close the window object that was created in the startWindow function.
     This is done by calling the close() method on self.__windowObj, which will cause it to be destroyed.
-
     Args:
         self: Represent the instance of the class
-
     Returns:
         The window object
-
     Doc Author:
         Willem van der Schans, Trelent AI
     """
@@ -184,14 +181,11 @@ class PopupWrapped():
     The textUpdate function is a function that updates the text in the text field.
     It does this by adding dots to the end of it, and then removing them. This creates
     a loading effect for when something is being processed.
-
     Args:
         self: Refer to the object itself
         sleep: Control the speed of the text update
-
     Returns:
         A string that is the current text of the text field
-
     Doc Author:
         Willem van der Schans, Trelent AI
     """
@@ -216,13 +210,10 @@ class PopupWrapped():
         The function takes in an event and values from the window object, then checks if the event starts with 'update'.
         If it does, it will take everything after 'update' as a key for updating that specific value.
         It will then update that value using its key and refresh the window.
-
     Args:
         self: Reference the object that is calling the function
-
     Returns:
         A tuple containing the event and values
-
     Doc Author:
         Willem van der Schans, Trelent AI
     """

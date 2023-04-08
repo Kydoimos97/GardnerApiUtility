@@ -112,3 +112,4 @@ class Cencus:
                 passFlag = True
 
         RESTError(response)
+        raise SystemExit(0)

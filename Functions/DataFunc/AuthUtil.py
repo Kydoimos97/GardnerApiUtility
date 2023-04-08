@@ -83,6 +83,7 @@ class AuthUtil:
             except Exception as e:
                 print(e)
                 RESTError(402)
+                raise SystemExit(402)
         else:
             self.k = Fernet.generate_key()
             f = open(self.keyPath.joinpath("3v45wfvw45wvc4f35.av3ra3rvavcr3w"), "wb")
@@ -92,8 +93,9 @@ class AuthUtil:
             try:
                 os.remove(self.filePath.joinpath("auth.json"))
             except Exception as e:
-                #Logging
-                print(f"Authutil.py | Error = {e} | Error in removing auth.json file - This can be due to the file not existing. Continuing...")
+                # Logging
+                print(
+                    f"Authutil.py | Error = {e} | Error in removing auth.json file - This can be due to the file not existing. Continuing...")
                 pass
 
             f = open(self.filePath.joinpath("auth.json"), "wb")
@@ -104,9 +106,10 @@ class AuthUtil:
 
         try:
             ctypes.windll.kernel32.SetFileAttributesW(self.keyPath.joinpath("3v45wfvw45wvc4f35.av3ra3rvavcr3w"), 2)
-        except Exception:
-            #Logging
-            print(f"Authutil.py |Error = {e} | Error when setting the key file as hidden. This is a common problem due to permission errors. Continuing...")
+        except Exception as e:
+            # Logging
+            print(
+                f"Authutil.py |Error = {e} | Error when setting the key file as hidden. This is a common problem due to permission errors. Continuing...")
             pass
 
     def __SetValues(self, values):
@@ -143,7 +146,7 @@ class AuthUtil:
             try:
                 ureCurrent = fernet.decrypt(keyFile["ure"]['auth'].decode())
             except Exception as e:
-                #Logging
+                # Logging
                 print(
                     f"Authutil.py |Error = {e} | Error decoding Utah Real Estate Key. Continuing but this should be resolved if URE functionality will be accessed")
                 ureCurrent = None
@@ -151,7 +154,7 @@ class AuthUtil:
             try:
                 cmCurrent = fernet.decrypt(keyFile["cm"]['auth'].decode())
             except Exception as e:
-                #Logging
+                # Logging
                 print(
                     f"Authutil.py |Error = {e} | Error decoding Construction Monitor Key. Continuing but this should be resolved if CM functionality will be accessed")
                 cmCurrent = None
@@ -195,7 +198,7 @@ class AuthUtil:
         """
     The __ShowGui function is a helper function that displays the GUI to the user.
     It takes in two arguments: layout and text. The layout argument is a list of lists,
-    which contains all of the elements that will be displayed on screen. The text argument
+    which contains all the elements that will be displayed on screen. The text argument
     is simply what will be displayed at the top of the window.
 
     Args:
@@ -219,6 +222,7 @@ class AuthUtil:
                 except Exception as e:
                     print(e)
                     RESTError(993)
+                    raise SystemExit(933)
                 finally:
                     pass
             elif event == sg.WIN_CLOSED or event == "Quit":
@@ -232,7 +236,7 @@ class AuthUtil:
     def __CreateFrame(self):
         """
     The __CreateFrame function creates the GUI layout for the Authentication Utility.
-    It is called by __init__ and returns a list of lists that contains all of the elements
+    It is called by __init__ and returns a list of lists that contains all the elements
     that will be displayed in the window.
 
     Args:

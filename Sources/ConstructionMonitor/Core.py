@@ -76,7 +76,7 @@ class ConstructionMonitorInit:
 
         """
     The __ShowGui function is the main function that creates and displays the GUI.
-    It takes in a layout, which is a list of lists containing all of the elements to be displayed on screen.
+    It takes in a layout, which is a list of lists containing all the elements to be displayed on screen.
     The text parameter specifies what title should appear at the top of the window.
 
     Args:
@@ -104,7 +104,7 @@ class ConstructionMonitorInit:
                 except Exception as e:
                     print(e)
                     RESTError(993)
-                    break
+                    raise SystemExit(933)
             elif event == sg.WIN_CLOSED or event == "Quit":
                 break
 
@@ -115,7 +115,7 @@ class ConstructionMonitorInit:
 
         """
     The __CreateFrame function creates the GUI layout for the application.
-        The function returns a list of lists that contains all of the elements to be displayed in the GUI window.
+        The function returns a list of lists that contains all the elements to be displayed in the GUI window.
         This is done by creating each line as a list and then appending it to another list which will contain all lines.
 
     Args:
@@ -249,11 +249,13 @@ class ConstructionMonitorMain:
             self.mainFunc()
         except SystemError as e:
             if "Status Code = 1000 | Catastrophic Error" in str(getattr(e, 'message', repr(e))):
-                print(f"ConstructionMonitor/Core.py | Error = {e} | Cooerced SystemError in ConstructionMonitorMain class")
+                print(
+                    f"ConstructionMonitor/Core.py | Error = {e} | Cooerced SystemError in ConstructionMonitorMain class")
                 pass
         except Exception as e:
             print(e)
-            RESTError(1000)
+            RESTError(1001)
+            raise SystemExit(1001)
 
     def mainFunc(self):
         """
@@ -278,19 +280,22 @@ class ConstructionMonitorMain:
         self.__getCountUI()
 
         self.__batches = BatchCalculator(self.__record_val, self.__parameterDict)
+        if self.__batches != 0:
+            if self.__ui_flag:
+                BatchInputGui(self.__batches)
 
-        if self.__ui_flag:
-            BatchInputGui(self.__batches)
-
-        BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
-                                          ParameterDict=self.__parameterDict,
-                                          HeaderDict=self.__headerDict,
-                                          ColumnSelection=self.__columnSelection,
-                                          BatchesNum=self.__batches,
-                                          Type="construction_monitor")
-        BatchGuiObject.BatchGuiShow()
-        self.dataframe = BatchGuiObject.dataframe
-        FileSaver("cm", self.dataframe, self.__appendFile)
+            BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
+                                              ParameterDict=self.__parameterDict,
+                                              HeaderDict=self.__headerDict,
+                                              ColumnSelection=self.__columnSelection,
+                                              BatchesNum=self.__batches,
+                                              Type="construction_monitor")
+            BatchGuiObject.BatchGuiShow()
+            self.dataframe = BatchGuiObject.dataframe
+            FileSaver("cm", self.dataframe, self.__appendFile)
+        else:
+            RESTError(994)
+            raise SystemExit(994)
 
     def __ParameterCreator(self):
         """
@@ -358,16 +363,18 @@ class ConstructionMonitorMain:
             if __count_resp.status_code != 200:
                 RESTError(__count_resp)
 
-
         except requests.exceptions.Timeout as e:
             print(e)
             RESTError(790)
+            raise SystemExit(790)
         except requests.exceptions.TooManyRedirects as e:
             print(e)
             RESTError(791)
+            raise SystemExit(791)
         except requests.exceptions.RequestException as e:
             print(e)
             RESTError(1000)
+            raise SystemExit(1000)
 
         __count_resp = __count_resp.json()
 

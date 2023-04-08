@@ -21,12 +21,14 @@ from pathlib import Path
 
 def logger():
     """
-The logger function redirects stdout and stderr to log files in the user's AppData directory.
+The logger function creates a log file in the user's AppData directory.
+The function will create the directory if it does not exist.
+The function will also delete the oldest file when 100 logs have been saved to prevent bloat.
 
 Args:
 
 Returns:
-    The filepaths of the log files created
+    A file path to the log file that was created
 
 Doc Author:
     Willem van der Schans, Trelent AI
@@ -41,16 +43,20 @@ Doc Author:
             os.mkdir(Path(os.path.expandvars(r'%APPDATA%\GardnerUtil')))
             os.mkdir(dir_path)
 
-    def sorted_ls(path):
+    filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
+        f"{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
+    sys.stdout = open(filePath, 'w')
+    sys.stderr = sys.stdin = sys.stdout
 
+    def sorted_ls(path):
         """
     The sorted_ls function takes a path as an argument and returns the files in that directory sorted by modification time.
 
     Args:
-        path: Specify the path of the directory to be sorted
+        path: Specify the directory to be sorted
 
     Returns:
-        A list of files in the directory specified by path sorted by modification time
+        A list of files in a directory sorted by modification time
 
     Doc Author:
         Willem van der Schans, Trelent AI
@@ -58,15 +64,7 @@ Doc Author:
         mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
         return list(sorted(os.listdir(path), key=mtime))
 
-    filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
-        f"stdout{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
-    sys.stdout = open(filePath, 'w')
-
-    filePath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Logs')).joinpath(
-        f"stderr{datetime.datetime.today().strftime('%m%d%Y_%H%M%S')}.log")
-    sys.stderr = open(filePath, 'w')
-
-    del_list = sorted_ls(dir_path)[0:(len(sorted_ls(dir_path)) - 50)]
+    del_list = sorted_ls(dir_path)[0:(len(sorted_ls(dir_path)) - 100)]
     for file in del_list:
         os.remove(dir_path.joinpath(file))
         print(f"Log file {file} deleted")

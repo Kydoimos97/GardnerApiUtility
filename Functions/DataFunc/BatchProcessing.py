@@ -26,7 +26,7 @@ def BatchCalculator(TotalRecords, Argument_Dict):
     """
 The BatchCalculator function takes two arguments:
     1. TotalRecords - the total number of records in the database
-    2. Argument_Dict - a dictionary containing all of the arguments passed to this function by the user
+    2. Argument_Dict - a dictionary containing all the arguments passed to this function by the user
 
 Args:
     TotalRecords: Determine the number of batches that will be needed to complete the query
@@ -42,7 +42,8 @@ Doc Author:
         document_limit = Argument_Dict["size"]
     except Exception as e:
         # Logging
-        print(f"BatchProcessing.py |Error = {e} | Batch Calculator document limit overwritten to 200 from input {Argument_Dict['size']}")
+        print(
+            f"BatchProcessing.py |Error = {e} | Batch Calculator document limit overwritten to 200 from input")
         document_limit = 200
 
     return int(math.ceil(float(TotalRecords) / float(document_limit)))
@@ -105,7 +106,7 @@ class BatchProcessorConstructionMonitor:
         """
     The ConstructionMonitorProcessor function will use requests to get data from
        ConstructionMontior.com's ReST API and store it into a pandas DataFrame object called __df (which is local). This
-       process will be repeated until all of the data has been collected from ConstructionMonitor.com's ReST API, at which point __df will contain all
+       process will be repeated until all the data has been collected from ConstructionMonitor.com's ReST API, at which point __df will contain all
 
     Args:
         self: Represent the instance of the object itself
@@ -179,7 +180,7 @@ class BatchProcessorConstructionMonitor:
         valueObject.setValue(-999)
 
 
-class BatchProcessorUtahRealEstate():
+class BatchProcessorUtahRealEstate:
 
     def __init__(self, RestDomain, NumBatches, ParameterString, HeaderDict, valueObject):
         """
@@ -229,10 +230,10 @@ class BatchProcessorUtahRealEstate():
     def BatchProcessingUtahRealestateCom(self, valueObject):
         """
     The BatchProcessingUtahRealestateCom function is a function that takes in the valueObject and uses it to
-       update the progress bar. It also takes in self, which contains all of the necessary information for this
+       update the progress bar. It also takes in self, which contains all the necessary information for this
        function to work properly. The BatchProcessingUtahRealestateCom function will then use requests to get data from
        UtahRealestate.com's ReST API and store it into a pandas DataFrame object called __df (which is local). This
-       process will be repeated until all of the data has been collected from UtahRealestate.com's ReST API, at which point __df will contain all
+       process will be repeated until all the data has been collected from UtahRealestate.com's ReST API, at which point __df will contain all
 
     Args:
         self: Represent the instance of the class
@@ -254,7 +255,6 @@ class BatchProcessorUtahRealEstate():
 
                 response_temp = response.json()
                 __df = pd.json_normalize(response_temp, record_path=['value'])
-
 
             else:
                 response = requests.get(f"{self.__restDomain}{self.__parameterString}&top=200&$skip={batch * 200}",

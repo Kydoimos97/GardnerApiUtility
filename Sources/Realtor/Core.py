@@ -96,8 +96,7 @@ class realtorCom:
                 except Exception as e:
                     print(f"Realtor/Core.py | Error = {e} | Error while getting document links for realtor.com")
                     RESTError(801)
-
-
+                    raise SystemExit(801)
 
     def __dataUpdater(self):
 

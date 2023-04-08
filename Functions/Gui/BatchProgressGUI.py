@@ -27,7 +27,7 @@ from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 counter = 1
 
 
-class BatchProgressGUI():
+class BatchProgressGUI:
 
     def __init__(self, BatchesNum, RestDomain, ParameterDict, HeaderDict, Type, ColumnSelection=None):
 
@@ -106,7 +106,7 @@ class BatchProgressGUI():
                    sg.Text(font=("Helvetica", 10), justification="center", key="--time_est--"), sg.Push()]
 
         __Line3 = [
-            sg.ProgressBar(max_value=self.__batches, bar_color=["#920303", "#C9c8c8"], orientation='h', size=(30, 20),
+            sg.ProgressBar(max_value=self.__batches, bar_color=("#920303", "#C9c8c8"), orientation='h', size=(30, 20),
                            key='--progress_bar--')]
 
         __Line4 = [sg.Push(), sg.Cancel(), sg.Push()]
@@ -115,19 +115,19 @@ class BatchProgressGUI():
 
         self.__layout = layout
 
-    def createGui(self, type):
+    def createGui(self, Sourcetype):
 
         """
     The createGui function is the main function that creates the GUI.
     It takes in a type parameter which determines what kind of batch processor to use.
-    The createGui function then sets up all of the variables and objects needed for
+    The createGui function then sets up all the variables and objects needed for
     the program to run, including: window, start_time, update_text, valueObj (DataTransfer),
     processorObject (BatchProcessorConstructionMonitor or BatchProcessorUtahRealestate),
     and threading objects for TimeUpdater and ValueChecker functions. The createGui function also starts these threads.
 
     Args:
         self: Access the object itself
-        type: Determine which batch processor to use
+        Sourcetype: Determine which batch processor to use
 
     Returns:
         The dataframe
@@ -146,7 +146,7 @@ class BatchProgressGUI():
         valueObj = DataTransfer()
         valueObj.setValue(0)
 
-        if type == "construction_monitor":
+        if Sourcetype == "construction_monitor":
 
             processorObject = BatchProcessorConstructionMonitor(RestDomain=self.__restDomain,
                                                                 NumBatches=self.__batches,
@@ -154,7 +154,7 @@ class BatchProgressGUI():
                                                                 HeaderDict=self.__headerDict,
                                                                 ColumnSelection=self.__columnSelection,
                                                                 valueObject=valueObj)
-        elif type == "utah_real_estate":
+        elif Sourcetype == "utah_real_estate":
             processorObject = BatchProcessorUtahRealEstate(RestDomain=self.__restDomain,
                                                            NumBatches=self.__batches,
                                                            ParameterString=self.__parameterDict,
@@ -256,7 +256,8 @@ class BatchProgressGUI():
                 try:
                     self.__window.write_event_value('update--timer--', __timer_string)
                 except AttributeError as e:
-                    print(f"BatchProgressGUI.py | Error = {e} | Timer string attribute error, this is okay if the display looks good, this exception omits fatal crashes due to an static error")
+                    print(
+                        f"BatchProgressGUI.py | Error = {e} | Timer string attribute error, this is okay if the display looks good, this exception omits fatal crashes due to an aesthetic error")
                     break
 
                 __passed_time = __passed_time.total_seconds()

@@ -82,15 +82,25 @@ class initializer:
             event, values = window.read()
 
             if event == "Construction Monitor":
+                print("\n-------------Initiating Construction Monitor API Call-----------------")
                 ConstructionMonitorMain(ConstructionMonitorInit())
+                print("-------------Closing Construction Monitor API Call---------------------\n")
             elif event == "Utah Real Estate":
+                print("\n-------------Initiating Utah Real Estate API Call-----------------")
                 UtahRealEstateMain(UtahRealEstateInit())
+                print("-------------Closing Utah Real Estate API Call---------------------\n")
             elif event == "Realtor.Com":
+                print("\n-------------Initiating Realtor.com API Call-----------------")
                 realtorCom()
+                print("-------------Closing Realtor.com API Call---------------------\n")
             elif event == "Census":
+                print("\n-------------Initiating Census API Call-----------------")
                 Cencus()
+                print("-------------Closing Census API Call---------------------\n")
             elif event == "Authorization Utility":
+                print("\n-------------Initiating Authorization Utility-----------------")
                 AuthUtil()
+                print("-------------Closing Census API Call---------------------\n")
             elif event == "Open Data Folder":
                 try:
                     os.system(f"start {Path(os.path.expanduser('~/Documents')).joinpath('GardnerUtilData')}")
@@ -99,8 +109,9 @@ class initializer:
                         os.system(f"start {Path(os.path.expanduser('~/Documents'))}")
                     except Exception as e:
                         print(f"Initializer.py | Error = {e} | Documents folder not found")
-                        PopupWrapped(text="Documents folder not found. Please create a Windows recognized documents folder",
-                                     windowType="errorLarge")
+                        PopupWrapped(
+                            text="Documents folder not found. Please create a Windows recognized documents folder",
+                            windowType="errorLarge")
 
             elif event in ('Exit', None):
                 try:

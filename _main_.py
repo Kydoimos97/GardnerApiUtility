@@ -12,7 +12,6 @@
 #  or the use or other dealings in the software.
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
 from Initializer import initializer
 
 initializer()

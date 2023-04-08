@@ -21,7 +21,7 @@ import PySimpleGUI as sg
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 
 
-def DataChecker(Name, Path):
+def DataChecker(Name, DataPath):
     """
 The DataChecker function is used to check if the user has selected a valid data file.
     If the user selects an invalid file, they will be prompted to select another one until
@@ -45,7 +45,7 @@ Doc Author:
 
     __Line2 = [sg.Text("Choose a file: "),
                sg.Input(),
-               sg.FileBrowse(file_types=(("Data Files (.csv)", "*.csv"),), initial_folder=Path)]
+               sg.FileBrowse(file_types=(("Data Files (.csv)", "*.csv"),), initial_folder=DataPath)]
 
     __Line3 = [sg.Push(),
                sg.Ok("Continue"),

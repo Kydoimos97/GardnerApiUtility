@@ -98,12 +98,14 @@ class FileSaver:
                              windowType="noticeLarge")
 
                 # Logging
-                print(f"{method} API request Completed at {datetime.datetime.now()} | File Appended and Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
+                print(
+                    f"{method} API request Completed at {datetime.datetime.now()} | File Appended and Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
             else:
                 PopupWrapped(text=f"File Saved to {self.docPath.joinpath(self.fileName)}", windowType="noticeLarge")
 
                 # Logging
-                print(f"{method} API request Completed at {datetime.datetime.now()} | File Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
+                print(
+                    f"{method} API request Completed at {datetime.datetime.now()} | File Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
         else:
             pass
 

@@ -51,7 +51,7 @@ class UtahRealEstateInit:
 
         """
     The __ShowGui function is a helper function that creates the GUI window and displays it to the user.
-    It takes in two parameters: layout, which is a list of lists containing all of the elements for each row;
+    It takes in two parameters: layout, which is a list of lists containing all the elements for each row;
     and text, which is a string containing what will be displayed as the title of the window. The __ShowGui
     method then uses these parameters to create an instance of sg.Window with all its attributes set accordingly.
 
@@ -80,7 +80,7 @@ class UtahRealEstateInit:
                 except Exception as e:
                     print(e)
                     RESTError(993)
-                    break
+                    raise SystemExit(993)
             elif event == sg.WIN_CLOSED or event == "Quit":
 
                 break
@@ -91,7 +91,7 @@ class UtahRealEstateInit:
     def __CreateFrame():
         """
     The __CreateFrame function creates the GUI layout for the application.
-        The function returns a list of lists that contains all of the elements to be displayed in the window.
+        The function returns a list of lists that contains all the elements to be displayed in the window.
         Each element is defined by its type and any additional parameters needed to define it.
 
     Args:
@@ -247,20 +247,21 @@ class UtahRealEstateMain:
             if "ListedOrModified" in str(getattr(e, 'message', repr(e))):
                 pass
         except AttributeError as e:
-                print(
-                    f"UtahRealEstate/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
-                PopupWrapped(text="Authentication Error | Please update keys in AuthUtil", windowType="error", error=401)
-                pass
+            print(
+                f"UtahRealEstate/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
+            PopupWrapped(text="Authentication Error | Please update keys in AuthUtil", windowType="error", error=401)
+            pass
         except Exception as e:
             print(e)
-            RESTError(1000)
+            RESTError(1001)
+            raise SystemExit(1001)
 
     def mainFunc(self):
 
         """
     The mainFunc function is the main function of this module. It will be called by the GUI when a user clicks on
     the &quot;Run&quot; button in the GUI. The mainFunc function should contain all of your code for running your program, and it
-    should return a dataframe that contains all of the data you want to display in your final report.
+    should return a dataframe that contains all the data you want to display in your final report.
 
     Args:
         self: Reference the object itself
@@ -285,7 +286,7 @@ class UtahRealEstateMain:
                     authkey = fernet.decrypt(authDict["ure"]["auth"]).decode()
                     self.__headerDict = {authDict["ure"]["parameter"]: authkey}
                     passFlag = True
-                except:
+                except Exception as e:
                     print(f"UtahRealEstate/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
                     AuthUtil()
             else:
@@ -297,16 +298,20 @@ class UtahRealEstateMain:
 
         self.__batches = BatchCalculator(self.__record_val, None)
 
-        BatchInputGui(self.__batches)
+        if self.__batches != 0:
+            BatchInputGui(self.__batches)
 
-        BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
-                                          ParameterDict=self.__parameterString,
-                                          HeaderDict=self.__headerDict,
-                                          BatchesNum=self.__batches,
-                                          Type="utah_real_estate")
-        BatchGuiObject.BatchGuiShow()
-        self.dataframe = BatchGuiObject.dataframe
-        FileSaver("ure", self.dataframe, self.__appendFile)
+            BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
+                                              ParameterDict=self.__parameterString,
+                                              HeaderDict=self.__headerDict,
+                                              BatchesNum=self.__batches,
+                                              Type="utah_real_estate")
+            BatchGuiObject.BatchGuiShow()
+            self.dataframe = BatchGuiObject.dataframe
+            FileSaver("ure", self.dataframe, self.__appendFile)
+        else:
+            RESTError(994)
+            raise SystemExit(994)
 
     def __ParameterCreator(self):
         """
@@ -376,18 +381,22 @@ class UtahRealEstateMain:
 
             if __count_resp.status_code != 200:
                 RESTError(__count_resp)
+                raise SystemExit(0)
 
             self.__record_val = int(__count_resp.json()["@odata.count"])
 
         except requests.exceptions.Timeout as e:
             print(e)
             RESTError(790)
+            raise SystemExit(790)
         except requests.exceptions.TooManyRedirects as e:
             print(e)
             RESTError(791)
+            raise SystemExit(791)
         except requests.exceptions.RequestException as e:
             print(e)
             RESTError(1000)
+            raise SystemExit(1000)
 
     def __getCountUI(self):
 
