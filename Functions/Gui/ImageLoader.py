@@ -51,4 +51,5 @@ Doc Author:
 
         return img_str
     except Exception as e:
+        # We cannot log this error like other errors due to circular imports
         raise e
