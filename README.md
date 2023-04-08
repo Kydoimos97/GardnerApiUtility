@@ -30,7 +30,7 @@ The program provides a safe way to store and use authentication keys
 
 <h4>Main Screen</h4>
 
-![main screen](External Files/Images/Screenshots/MainScreen.png)
+![main screen]
 
 <h4>Construction Monitor</h4>
 
