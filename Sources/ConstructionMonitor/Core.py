@@ -2,8 +2,10 @@ import copy
 import json
 import os
 import threading
+import time
 from datetime import date, timedelta
 from pathlib import Path
+import datetime
 
 import PySimpleGUI as sg
 import requests
@@ -252,6 +254,20 @@ class ConstructionMonitorMain:
                 print(
                     f"ConstructionMonitor/Core.py | Error = {e} | Cooerced SystemError in ConstructionMonitorMain class")
                 pass
+        except AttributeError as e:
+            # This allows for user cancellation of the program using the quit button
+            if "'NoneType' object has no attribute 'json'" in str(getattr(e, 'message', repr(e))):
+                RESTError(1101)
+                print(f"Error {e}")
+                pass
+            elif e is not None:
+                print(
+                    f"ConstructionMonitor/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
+                RESTError(401)
+                print(e)
+                pass
+            else:
+                pass
         except Exception as e:
             print(e)
             RESTError(1001)
@@ -281,9 +297,9 @@ class ConstructionMonitorMain:
 
         self.__batches = BatchCalculator(self.__record_val, self.__parameterDict)
         if self.__batches != 0:
-            if self.__ui_flag:
-                BatchInputGui(self.__batches)
-
+            startTime = datetime.datetime.now().replace(microsecond=0)
+            BatchInputGui(self.__batches)
+            print(f"Request for {self.__batches} Batches sent to server")
             BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
                                               ParameterDict=self.__parameterDict,
                                               HeaderDict=self.__headerDict,
@@ -292,6 +308,7 @@ class ConstructionMonitorMain:
                                               Type="construction_monitor")
             BatchGuiObject.BatchGuiShow()
             self.dataframe = BatchGuiObject.dataframe
+            print(f"Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
             FileSaver("cm", self.dataframe, self.__appendFile)
         else:
             RESTError(994)
@@ -371,6 +388,9 @@ class ConstructionMonitorMain:
             print(e)
             RESTError(791)
             raise SystemExit(791)
+        except requests.exceptions.MissingSchema as e:
+            print(e)
+            RESTError(1101)
         except requests.exceptions.RequestException as e:
             print(e)
             RESTError(405)

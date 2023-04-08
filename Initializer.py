@@ -52,7 +52,11 @@ class initializer:
 
         logger()
 
+        print("\n\n-------------Initiate Program---------------------\n\n")
+
         self.__ShowGui(self.__CreateFrame(), "Data Tool")
+
+        print("\n\n-------------Closing Program---------------------\n\n")
 
     def __ShowGui(self, layout, text):
 
@@ -102,6 +106,7 @@ class initializer:
                 AuthUtil()
                 print("-------------Closing Census API Call---------------------\n")
             elif event == "Open Data Folder":
+                print("\n-------------Data Folder Opened-----------------")
                 try:
                     os.system(f"start {Path(os.path.expanduser('~/Documents')).joinpath('GardnerUtilData')}")
                 except:

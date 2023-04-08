@@ -100,6 +100,7 @@ class FileSaver:
                 # Logging
                 print(
                     f"{method} API request Completed at {datetime.datetime.now()} | File Appended and Saved to {self.docPath.joinpath(self.fileName)} | Exit Code 0")
+                print(f"Appending Statistics | Method: {method} | Appending file rows: {self.dataAppending.shape[0]}, Total Rows: {(self.dataAppending.shape[0] + self.data.shape[0])}, Duplicates Dropped {(self.dataAppending.shape[0] + self.data.shape[0])-self.outputFrame.shape[0]}")
             else:
                 PopupWrapped(text=f"File Saved to {self.docPath.joinpath(self.fileName)}", windowType="noticeLarge")
 

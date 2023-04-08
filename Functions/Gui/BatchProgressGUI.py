@@ -109,9 +109,8 @@ class BatchProgressGUI:
             sg.ProgressBar(max_value=self.__batches, bar_color=("#920303", "#C9c8c8"), orientation='h', size=(30, 20),
                            key='--progress_bar--')]
 
-        __Line4 = [sg.Push(), sg.Cancel(), sg.Push()]
 
-        layout = [__Line1, __Line2, __Line3, __Line4]
+        layout = [__Line1, __Line2, __Line3]
 
         self.__layout = layout
 
@@ -164,15 +163,16 @@ class BatchProgressGUI:
         threading.Thread(target=self.TimeUpdater,
                          args=(start_time,),
                          daemon=True).start()
+        print("TimeUpdater Thread Successfully Started")
 
         batchFuncThread = threading.Thread(target=processorObject.FuncSelector,
                                            daemon=False)
-
         batchFuncThread.start()
-
+        print("BatchFunc Thread Successfully Started")
         threading.Thread(target=self.ValueChecker,
                          args=(valueObj,),
                          daemon=False).start()
+        print("ValueChecker Thread Successfully Started")
 
         while True:
 

@@ -53,7 +53,7 @@ Doc Author:
         raise ValueError(textString)
     elif status_code == 401:
         RESTErrorPrint(response)
-        textString = f"Status Code = {status_code} | Authentication Error: use get_request_auth"
+        textString = f"Status Code = {status_code} | Authentication Error: No keys found"
         ErrorPopup(textString)
         raise PermissionError(textString)
     elif status_code == 402:
@@ -144,6 +144,10 @@ Doc Author:
         RESTErrorPrint(response)
         textString = f"Status Code = {status_code} | User has cancelled the program execution"
         raise KeyboardInterrupt(textString)
+    elif status_code == 1101:
+        RESTErrorPrint(response)
+        textString = f"Status Code = {status_code} | User returned to main menu using the exit button"
+        print(textString)
     else:
         RESTErrorPrint(response)
         raise Exception(f"Status Code = {status_code} | An unknown exception occurred")
