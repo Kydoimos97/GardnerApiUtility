@@ -373,8 +373,8 @@ class ConstructionMonitorMain:
             raise SystemExit(791)
         except requests.exceptions.RequestException as e:
             print(e)
-            RESTError(1000)
-            raise SystemExit(1000)
+            RESTError(405)
+            raise SystemExit(405)
 
         __count_resp = __count_resp.json()
 

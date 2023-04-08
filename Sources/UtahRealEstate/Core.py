@@ -247,10 +247,13 @@ class UtahRealEstateMain:
             if "ListedOrModified" in str(getattr(e, 'message', repr(e))):
                 pass
         except AttributeError as e:
-            print(
-                f"UtahRealEstate/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
-            PopupWrapped(text="Authentication Error | Please update keys in AuthUtil", windowType="error", error=401)
-            pass
+            if e is not None:
+                print(
+                    f"UtahRealEstate/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
+                PopupWrapped(text="Authentication Error | Please update keys in AuthUtil", windowType="error", error=401)
+                pass
+            else:
+                pass
         except Exception as e:
             print(e)
             RESTError(1001)
@@ -395,8 +398,8 @@ class UtahRealEstateMain:
             raise SystemExit(791)
         except requests.exceptions.RequestException as e:
             print(e)
-            RESTError(1000)
-            raise SystemExit(1000)
+            RESTError(405)
+            raise SystemExit(405)
 
     def __getCountUI(self):
 
