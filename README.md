@@ -30,35 +30,35 @@ The program provides a safe way to store and use authentication keys
 
 <h4>Main Screen</h4>
 
-![main screen]
+![main screen](External%20Files/Images/Screenshots/MainScreen.png)
 
 <h4>Construction Monitor</h4>
 
-![construction monitor](External Files/Images/Screenshots/Construction%20Monitor.png)
+![construction monitor](External%20Files/Images/Screenshots/Construction%20Monitor.png)
 
 <h4>Utah Real Estate</h4>
 
-![utah real estate gui](External Files/Images/Screenshots/utahrealestate.png)
+![utah real estate gui](External%20Files/Images/Screenshots/utahrealestate.png)
 
 <h4>Authorization Utility</h4>
 
-![authorization utility](External Files/Images/Screenshots/authutil.png)
+![authorization utility](External%20Files/Images/Screenshots/authutil.png)
 
 <h4>Batch Request progress</h4>
 
-![debug mode](External Files/Images/Screenshots/BatchRequest.png)
+![debug mode](External%20Files/Images/Screenshots/BatchRequest.png)
 
 <h4>Batch Confirmation Popup</h4>
 
-![](External Files/Images/Screenshots/bathconfirmation.png)
+![](External%20Files/Images/Screenshots/bathconfirmation.png)
 
 <h4>Interactive Progress Bar</h4>
 
-![](External Files/Images/Screenshots/progressbar.png)
+![](External%20Files/Images/Screenshots/progressbar.png)
 
 <h4>Confirmation Popup</h4>
 
-![exit](External Files/Images/Screenshots/confirmation.png)
+![exit](External%20Files/Images/Screenshots/confirmation.png)
 
 
 
