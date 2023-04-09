@@ -19,6 +19,7 @@
 7. pillow~=9.2.0
 
 _Note: Use the latest viable requirements for versions above_
+
 _Note: All dependencies are included in the Windows installer_
 
 # Authentication Requirements
