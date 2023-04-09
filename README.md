@@ -18,9 +18,7 @@
 6. cryptography~=38.0.1
 7. pillow~=9.2.0
 
-_Note: Use the latest viable requirements for versions above_
-
-_Note: All dependencies are included in the Windows installer_
+_Note: Use the latest viable requirements for versions above or use the Windows installer which includes all dependencies_
 
 # Authentication Requirements
 Authentication Keys are needed for utahrealestate.com and constructionmonitor.com
