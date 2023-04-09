@@ -1,15 +1,15 @@
 <div align="center">
 
+# Gardner Policy Institute API Utility</h1>
+#### Author: Willem van der Schans</h4>
+#### Commissioner: Gardner Policy Institute </h4>
+#### Description: A Python utility for generating API requests from ConstructionMonitor.com, Utah Real Estate.com, Realtor.com, and the US Census APIs </h4>
 
-# Gardner API Utility
-
-![project logo](External Files/Images/Screenshots/logo.jpg)
-
-A collection of data source api call utilities.
+![project logo](External%20Files%2FImages%2FScreenshots%2Flogo.jpg)
 
 </div>
 
-# VERSION INFO
+## VERSION INFO
 1. Python=3.10
 2. pandas~=1.5.2
 3. requests~=2.28.1
@@ -18,7 +18,8 @@ A collection of data source api call utilities.
 6. cryptography~=38.0.1
 7. pillow~=9.2.0
 
-_Note: Use latest viable requirements for versions above_
+_Note: Use the latest viable requirements for versions above_
+_Note: All dependencies are included in the Windows installer_
 
 # Authentication Requirements
 Authentication Keys are needed for utahrealestate.com and constructionmonitor.com
@@ -30,39 +31,39 @@ The program provides a safe way to store and use authentication keys
 
 <h4>Main Screen</h4>
 
-![main screen](External%20Files/Images/Screenshots/MainScreen.png)
+![main screen](External%20Files%2FImages%2FScreenshots%2FMainScreen.png)
 
 <h4>Construction Monitor</h4>
 
-![construction monitor](External%20Files/Images/Screenshots/Construction%20Monitor.png)
+![construction monitor](External%20Files%2FImages%2FScreenshots%2FConstruction%20Monitor.png)
 
 <h4>Utah Real Estate</h4>
 
-![utah real estate gui](External%20Files/Images/Screenshots/utahrealestate.png)
+![utah real estate gui](External%20Files%2FImages%2FScreenshots%2Futahrealestate.png)
 
 <h4>Authorization Utility</h4>
 
-![authorization utility](External%20Files/Images/Screenshots/authutil.png)
+![authorization utility](External%20Files%2FImages%2FScreenshots%2Fauthutil.png)
 
 <h4>Batch Request progress</h4>
 
-![debug mode](External%20Files/Images/Screenshots/BatchRequest.png)
+![debug mode](External%20Files%2FImages%2FScreenshots%2FBatchRequest.png)
 
 <h4>Batch Confirmation Popup</h4>
 
-![](External%20Files/Images/Screenshots/bathconfirmation.png)
+![](External%20Files%2FImages%2FScreenshots%2Fbathconfirmation.png)
 
 <h4>Interactive Progress Bar</h4>
 
-![](External%20Files/Images/Screenshots/progressbar.png)
+![](External%20Files%2FImages%2FScreenshots%2Fprogressbar.png)
 
 <h4>Confirmation Popup</h4>
 
-![exit](External%20Files/Images/Screenshots/confirmation.png)
+![exit](External%20Files%2FImages%2FScreenshots%2Fconfirmation.png)
 
+---
 
-
-</div>
+</div >
 
 # License
 Copyright (C) Willem van der Schans - All Rights Reserved.
@@ -80,3 +81,27 @@ whether in an action of contract, tort or otherwise, arising from, out of or in 
 or the use or other dealings in the software.
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+
+
+
+
+	
+
+	
+
+
+		
+
+
+	
+
+	
+
+
+
+
+
+
+	
+
