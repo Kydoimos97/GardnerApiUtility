@@ -1,7 +1,10 @@
 #  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
 #
+#  2023 - Permission to utilize, edit, copy and maintain and source code related to this project within the project's scope is granted to the Kem C. Gardner Policy institute situated in Salt Lake City, Utah into perpetuity.
+#
 #  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
 #  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#
 #  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
 #  for any purpose other than the purpose for which they were provided to you.
 #
@@ -13,6 +16,13 @@
 #
 #  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
+#
+#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
+#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
+#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
+#  for any purpose other than the purpose for which they were provided to you.
+#
+#
 import datetime
 import os
 from pathlib import Path
