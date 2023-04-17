@@ -37,7 +37,6 @@ Doc Author:
 
     __Line3 = [sg.Push(),
                sg.Ok("Continue"),
-               sg.Cancel(),
                sg.Push()]
 
     window = sg.Window("Batch popup", [__Line1, __Line2, __Line3],

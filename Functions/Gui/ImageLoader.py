@@ -25,6 +25,7 @@ Doc Author:
 """
     try:
         __path = normpath(join(str(os.getcwd().split("API_Calls", 1)[0]), "API_Calls"))
+        __path = normpath(join(__path, "External Files"))
         __path = normpath(join(__path, "Images"))
         __path = join(__path, file).replace("\\", "/")
 
