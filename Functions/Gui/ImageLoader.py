@@ -1,28 +1,6 @@
-#  Copyright (C) 2022-2023 - Willem van der Schans - All Rights Reserved.
-#
-#  2023 - Permission to utilize, edit, copy and maintain and source code related to this project within the project's scope is granted to the Kem C. Gardner Policy institute situated in Salt Lake City, Utah into perpetuity.
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#  The software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to
-#  the warranties of merchantability, fitness for a particular purpose and non infringement.
-#  In no event shall the authors or copyright holders be liable for any claim, damages or other liability,
-#  whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software
-#  or the use or other dealings in the software.
-#
-#  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+#   This software is licensed under Apache License, Version 2.0, January 2004 as found on http://www.apache.org/licenses/
 
-#
-#  THE CONTENTS OF THIS PROJECT ARE PROPRIETARY AND CONFIDENTIAL.
-#  UNAUTHORIZED COPYING, TRANSFERRING OR REPRODUCTION OF THE CONTENTS OF THIS PROJECT, VIA ANY MEDIUM IS STRICTLY PROHIBITED.
-#  The receipt or possession of the source code and/or any parts thereof does not convey or imply any right to use them
-#  for any purpose other than the purpose for which they were provided to you.
-#
-#
+
 import base64
 import os
 from io import BytesIO
