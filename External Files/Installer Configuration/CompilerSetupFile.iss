@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Gardner Api Utility"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.0.2"
 #define MyAppPublisher "Willem van der Schans"
 #define MyAppURL "https://github.com/Kydoimos97/GardnerApiUtility"
 #define MyAppExeName "Gardner Api Utility.exe"
@@ -29,8 +29,8 @@ InfoAfterFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_uti
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\Compiler
-OutputBaseFilename=Gardner_API_Setup
-SetupIconFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\API_Calls\Images\taskbar_icon.ico
+OutputBaseFilename=GardnerApiSetupWindowsInstaller
+SetupIconFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\API_Calls\External Files\Images\taskbar_icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

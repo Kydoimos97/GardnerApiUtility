@@ -19,7 +19,7 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Images/taskbar_icon.ico"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Images/taskbar_icon.ico"
   },
   {
    "optionDest": "name",
@@ -79,11 +79,7 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Functions;API_Calls/Functions/"
-  },
-  {
-   "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Images;API_Calls/Images/"
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Functions;API_Calls/Functions"
   },
   {
    "optionDest": "datas",
@@ -112,6 +108,18 @@
   {
    "optionDest": "hiddenimports",
    "value": "beautifulsoup4"
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Images;API_Calls/External Files/Images/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Documentation;SupportingDocumentation/Documentation/"
+  },
+  {
+   "optionDest": "datas",
+   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Installer Configuration;SupportingDocumentation/Installer Configuration/"
   }
  ],
  "nonPyinstallerOptions": {
