@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/_main_.py"
+   "value": "PATH TO _main_.py"
   },
   {
    "optionDest": "onefile",
@@ -19,7 +19,7 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Images/taskbar_icon.ico"
+   "value": "PATH TO API_Calls/External Files/Images/taskbar_icon.ico"
   },
   {
    "optionDest": "name",
@@ -75,15 +75,15 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Initializer.py;."
+   "value": "PATH TO  API_Calls/Initializer.py;."
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Functions;API_Calls/Functions"
+   "value": "PATH TO API_Calls/Functions;API_Calls/Functions"
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/Sources;API_Calls/Sources/"
+   "value": "PATH TO API_Calls/Sources;API_Calls/Sources/"
   },
   {
    "optionDest": "hiddenimports",
@@ -111,15 +111,15 @@
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Images;API_Calls/External Files/Images/"
+   "value": "PATH TO API_Calls/External Files/Images;API_Calls/External Files/Images/"
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Documentation;SupportingDocumentation/Documentation/"
+   "value": "PATH TO API_Calls/External Files/Documentation;SupportingDocumentation/Documentation/"
   },
   {
    "optionDest": "datas",
-   "value": "D:/Users/willem/OneDrive/MSIS/3. Fall 2022/PolicyInstitute/api_util/API_Calls/External Files/Installer Configuration;SupportingDocumentation/Installer Configuration/"
+   "value": "PATH TO API_Calls/External Files/Installer Configuration;SupportingDocumentation/Installer Configuration/"
   }
  ],
  "nonPyinstallerOptions": {

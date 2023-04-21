@@ -24,13 +24,13 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 ChangesAssociations=yes
 DisableProgramGroupPage=yes
-LicenseFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\LICENSE.txt
-InfoAfterFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\Info File.txt
+LicenseFile=PATH TO LICENSE.txt
+InfoAfterFile=PATH TO Info File.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\Compiler
+OutputDir=PATH TO OutputDir
 OutputBaseFilename=GardnerApiSetupWindowsInstaller
-SetupIconFile=D:\Users\willem\OneDrive\MSIS\3. Fall 2022\PolicyInstitute\api_util\API_Calls\External Files\Images\taskbar_icon.ico
+SetupIconFile=PATH TO API_Calls\External Files\Images\taskbar_icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
