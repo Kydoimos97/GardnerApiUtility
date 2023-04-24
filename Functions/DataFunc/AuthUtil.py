@@ -131,6 +131,7 @@ class AuthUtil:
         except:
             fileFlag = False
 
+        # Try initial decoding, if fails pass and write new keys and files
         if fileFlag:
             try:
                 ureCurrent = fernet.decrypt(keyFile["ure"]['auth'].decode())
