@@ -3,6 +3,7 @@
 
 import os
 import time
+import webbrowser
 from pathlib import Path
 
 import PySimpleGUI as sg
@@ -78,6 +79,13 @@ class PopupWrapped():
                        sg.Text(f"{self.__text}: {self.__error}", justification="center", key="-textField-"),
                        sg.Push()]
             __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
+        elif self.__type == "AuthError":
+            __Line1 = [sg.Push(),
+                       sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
+                       sg.Text(f"{self.__text}", justification="center", key="-textField-"),
+                       sg.Push()]
+            __Line2 = [sg.Push(), sg.Button(button_text="Open Generation Tool [Web Browser]"),
+                       sg.Ok(button_text="Return", focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "progress":
             __Line1 = [sg.Push(),
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
@@ -125,6 +133,12 @@ class PopupWrapped():
                                          keep_on_top=True,
                                          disable_close=False,
                                          icon=ImageLoader("taskbar_icon.ico"))
+        elif self.__type == "AuthError":
+            self.__windowObj = sg.Window(title="Auth Error", layout=self.__layout, finalize=True,
+                                         modal=True,
+                                         keep_on_top=True,
+                                         disable_close=False,
+                                         icon=ImageLoader("taskbar_icon.ico"))
         else:
             self.__windowObj = sg.Window(title=self.__type, layout=self.__layout, finalize=True,
                                          modal=True,
@@ -134,12 +148,16 @@ class PopupWrapped():
                                          size=(290, 80))
 
         if self.__type != "progress" or self.__type.startswith("perm"):
+            print("Here")
             timer = 0
             while timer < 100:
                 event, values = self.__windowObj.read()
-                if event == "Ok" or event == sg.WIN_CLOSED:
+                print(event)
+                if event == "Ok" or event == sg.WIN_CLOSED or event == "Return":
                     break
-
+                if event == "Open Generation Tool [Web Browser]":
+                    webbrowser.open('https://www.debugbear.com/basic-auth-header-generator', new=2, autoraise=True)
+                    pass
                 time.sleep(0.1)
 
             if self.__type == "FatalErrorLarge":

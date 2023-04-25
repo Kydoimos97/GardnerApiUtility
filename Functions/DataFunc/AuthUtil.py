@@ -121,6 +121,7 @@ class AuthUtil:
         ureCurrent = None
         cmCurrent = None
         keyFile = None
+        self.popupFlag = False
 
         fernet = Fernet(self.k)
 
@@ -161,9 +162,16 @@ class AuthUtil:
             pass
 
         if values["-cmAuth-"] != "":
-            self.jsonDict.update(
-                {"cm": {"parameter": "Authorization", "auth": fernet.encrypt(values["-cmAuth-"].encode()).decode()}})
-            self.passFlagCm = True
+            if values["-cmAuth-"].startswith("Basic"):
+                self.jsonDict.update(
+                    {"cm": {"parameter": "Authorization",
+                            "auth": fernet.encrypt(values["-cmAuth-"].encode()).decode()}})
+                self.passFlagCm = True
+            else:
+                PopupWrapped("Please make sure you provide a HTTP Basic Auth key for construction Monitor",
+                             windowType="AuthError")
+                self.popupFlag = True
+                pass
         elif ureCurrent is not None:
             self.jsonDict.update(
                 {"cm": {"parameter": "Authorization", "auth": fernet.encrypt(cmCurrent.encode()).decode()}})
@@ -176,8 +184,10 @@ class AuthUtil:
                          windowType="errorLarge")
         if self.passFlagCm and not self.passFlagUre:
             PopupWrapped("Please make sure you provide a key for Utah Real estate", windowType="errorLarge")
-        if not self.passFlagCm and self.passFlagUre:
+        if not self.passFlagCm and self.passFlagUre and not self.popupFlag:
             PopupWrapped("Please make sure you provide a key for Construction Monitor", windowType="errorLarge")
+        if self.popupFlag:
+            pass
         else:
             jsonOut = json.dumps(self.jsonDict, indent=4)
             f = open(self.filePath.joinpath("auth.json"), "w")
@@ -250,22 +260,22 @@ class AuthUtil:
         line1 = [sg.HSeparator()]
 
         line2 = [sg.Push(),
-                 sg.Text("Utah Real Estate Key: ", justification="center"),
+                 sg.Text("Utah Real Estate API Key: ", justification="center"),
                  sg.Push()]
 
         line3 = [sg.Push(),
-                 sg.Input(default_text="", key="-ureAuth-", disabled=False,
+                 sg.Input(default_text="123", key="-ureAuth-", disabled=False,
                           size=(40, 1)),
                  sg.Push()]
 
         line4 = [sg.HSeparator()]
 
         line5 = [sg.Push(),
-                 sg.Text("Construction Monitor Key: ", justification="center"),
+                 sg.Text("Construction Monitor HTTP BASIC Key: ", justification="center"),
                  sg.Push()]
 
         line6 = [sg.Push(),
-                 sg.Input(default_text="", key="-cmAuth-", disabled=False,
+                 sg.Input(default_text="Basic 123", key="-cmAuth-", disabled=False,
                           size=(40, 1)),
                  sg.Push()]
 
