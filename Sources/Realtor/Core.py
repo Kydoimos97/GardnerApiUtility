@@ -45,6 +45,8 @@ class realtorCom:
         if eventReturn == "Continue":
             startTime = datetime.datetime.now().replace(microsecond=0)
             self.__linkGetter()
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Link Dictionary = {self.__idDict}")
             self.__showUi()
             PopupWrapped(text=self.uiString, windowType="noticeLarge")
             print(

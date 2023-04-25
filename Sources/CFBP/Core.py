@@ -39,7 +39,8 @@ class CFBP:
         if eventReturn == "Continue":
             startTime = datetime.datetime.now().replace(microsecond=0)
             self.__showUi()
-            print(self.link)
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | API Link = {self.link}")
             F = FileSaver("cfbp", pd.read_csv(self.link, low_memory=False))
             print(
                 f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Data retrieved with in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")

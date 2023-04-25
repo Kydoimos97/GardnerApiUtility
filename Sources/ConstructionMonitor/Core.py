@@ -293,9 +293,18 @@ class ConstructionMonitorMain:
     """
         self.__ParameterCreator()
 
+        print(
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Param Dict = {self.__parameterDict}")
+        print(
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Rest Domain = {self.__restDomain}")
+
         self.__getCountUI()
 
         self.__batches = BatchCalculator(self.__record_val, self.__parameterDict)
+
+        print(
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Batches = {self.__batches} | Rows {self.__record_val}")
+
         if self.__batches != 0:
             startTime = datetime.datetime.now().replace(microsecond=0)
             eventReturn = BatchInputGui(self.__batches, self.__record_val)

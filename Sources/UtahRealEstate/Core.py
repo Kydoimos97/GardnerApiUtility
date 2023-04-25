@@ -280,17 +280,25 @@ class UtahRealEstateMain:
                     self.__headerDict = {authDict["ure"]["parameter"]: authkey}
                     passFlag = True
                 except Exception as e:
-                    print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | UtahRealEstate/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
+                    print(
+                        f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | UtahRealEstate/Core.py | Error = {e} | Auth.json not found opening AuthUtil")
                     AuthUtil()
             else:
                 AuthUtil()
 
-
         self.__ParameterCreator()
+
+        print(
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Param String = {self.__parameterString}")
+        print(
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Rest Domain = {self.__restDomain}")
 
         self.__getCountUI()
 
         self.__batches = BatchCalculator(self.__record_val, None)
+
+        print(
+            f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Batches = {self.__batches} | Rows {self.__record_val}")
 
         if self.__batches != 0:
             startTime = datetime.datetime.now().replace(microsecond=0)
