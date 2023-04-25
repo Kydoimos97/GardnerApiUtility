@@ -272,4 +272,18 @@ class PopupWrapped():
             self.__windowObj.refresh()
 
     def openFile(self):
+        """
+    The openFile function opens the file that is associated with the
+        document object.  It does this by calling os.system and passing it
+        self.__docpath as an argument.
+
+    Args:
+        self: Represent the instance of the object itself
+
+    Returns:
+        The filepath of the document
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
         os.system(self.__docpath)
