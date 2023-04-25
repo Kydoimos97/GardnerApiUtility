@@ -114,6 +114,13 @@ class PopupWrapped():
                        sg.Push()]
             __Line2 = [sg.Push(), sg.Button(button_text="Open Generation Tool [Web Browser]"),
                        sg.Ok(button_text="Return", focus=True, size=(10, 1)), sg.Push()]
+        elif self.__type == "versionWindow":
+            __Line1 = [sg.Push(),
+                       sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
+                       sg.Text(f"{self.__text}", justification="center", key="-textField-"),
+                       sg.Push()]
+            __Line2 = [sg.Push(), sg.Button(button_text="Download"),
+                       sg.Ok(button_text="Continue", focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "progress":
             __Line1 = [sg.Push(),
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
@@ -173,6 +180,12 @@ class PopupWrapped():
                                          keep_on_top=True,
                                          disable_close=False,
                                          icon=ImageLoader("taskbar_icon.ico"))
+        elif self.__type == "versionWindow":
+            self.__windowObj = sg.Window(title="Update", layout=self.__layout, finalize=True,
+                                         modal=True,
+                                         keep_on_top=True,
+                                         disable_close=False,
+                                         icon=ImageLoader("taskbar_icon.ico"))
         else:
             self.__windowObj = sg.Window(title=self.__type.capitalize(), layout=self.__layout, finalize=True,
                                          modal=True,
@@ -198,6 +211,10 @@ class PopupWrapped():
                     threadFile.start()
                     time.sleep(3)
                     break
+                elif event == "Download":
+                    webbrowser.open('https://github.com/Kydoimos97/GardnerApiUtility/releases/latest', new=2,
+                                    autoraise=True)
+                    pass
                 time.sleep(0.1)
 
             if self.__type == "FatalErrorLarge":

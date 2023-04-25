@@ -8,6 +8,7 @@ from pathlib import Path
 import PySimpleGUI as sg
 
 from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
+from API_Calls.Functions.DataFunc.versionChecker import versionChecker
 from API_Calls.Functions.ErrorFunc.Logger import logger
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
@@ -67,6 +68,8 @@ class initializer:
     Doc Author:
         Willem van der Schans, Trelent AI
     """
+        versionChecker()
+
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
@@ -75,7 +78,8 @@ class initializer:
             event, values = window.read()
 
             if event == "Construction Monitor":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Construction Monitor API Call-----------------")
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Construction Monitor API Call-----------------")
                 ConstructionMonitorMain(ConstructionMonitorInit())
                 print(
                     f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Construction Monitor API Call---------------------\n")
