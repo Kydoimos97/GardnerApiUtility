@@ -200,7 +200,7 @@ class PopupWrapped():
             while timer < 100:
                 event, values = self.__windowObj.read()
                 print(event)
-                if event == "Ok" or event == sg.WIN_CLOSED or event == "Return":
+                if event == "Ok" or event == sg.WIN_CLOSED or event == "Return" or event == "Continue":
                     break
                 elif event == "Open Generation Tool [Web Browser]":
                     webbrowser.open('https://www.debugbear.com/basic-auth-header-generator', new=2, autoraise=True)
