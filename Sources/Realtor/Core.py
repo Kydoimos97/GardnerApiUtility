@@ -38,11 +38,10 @@ class realtorCom:
         self.dfZip = None
         self.uiString = "Files Saved to \n"
 
-        page_html = requests.get("https://www.realtor.com/research/data/").text
-        self.__page_html = BeautifulSoup(page_html, "html.parser")
-
         eventReturn = confirmDialog()
         if eventReturn == "Continue":
+            page_html = requests.get("https://www.realtor.com/research/data/").text
+            self.__page_html = BeautifulSoup(page_html, "html.parser")
             startTime = datetime.datetime.now().replace(microsecond=0)
             self.__linkGetter()
             print(
