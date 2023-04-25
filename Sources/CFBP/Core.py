@@ -1,20 +1,22 @@
+import datetime
 import threading
-from datetime import date
+import time
 
 import pandas as pd
 import requests
 
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
+from API_Calls.Functions.Gui.BatchGui import confirmDialog
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
-class Cencus:
+class CFBP:
 
     def __init__(self, state_arg=None, year_arg=None):
         """
     The __init__ function is called when the class is instantiated.
-    It's job is to initialize the object with some default values, and do any other setup that might be necessary.
+    Its job is to initialize the object with some default values, and do any other setup that might be necessary.
     The __init__ function can take arguments, but it doesn't have to.
 
     Args:
@@ -33,13 +35,24 @@ class Cencus:
         self.uiString = None
         self.link = None
 
-        self.__showUi()
-        print(self.link)
-        F = FileSaver("cfbp", pd.read_csv(self.link, low_memory=False))
-        self.uiString = (
-            f"ffiec.cfpb.gov (Mortgage API) request Completed \n {self.year_arg} data retrieved \n Data Saved at {F.getPath()}")
+        eventReturn = confirmDialog()
+        if eventReturn == "Continue":
+            startTime = datetime.datetime.now().replace(microsecond=0)
+            self.__showUi()
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | API Link = {self.link}")
+            F = FileSaver("cfbp", pd.read_csv(self.link, low_memory=False))
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Data retrieved with in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
 
-        PopupWrapped(text=self.uiString, windowType="noticeLarge")
+            self.uiString = (
+                f"ffiec.cfpb.gov (Mortgage API) request Completed \n {self.year_arg} data retrieved \n Data Saved at {F.getPath()}")
+
+            PopupWrapped(text=self.uiString, windowType="noticeLarge")
+        else:
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | User Canceled Request")
+            pass
 
     def __showUi(self):
 

@@ -1,8 +1,9 @@
 #   This software is licensed under Apache License, Version 2.0, January 2004 as found on http://www.apache.org/licenses/
-
-
+import datetime
 import os
+import threading
 import time
+import webbrowser
 from pathlib import Path
 
 import PySimpleGUI as sg
@@ -33,6 +34,23 @@ class PopupWrapped():
         self.__windowObj = None
         self.__thread = None
         self.__counter = 0
+        self.__docpath = None
+        self.__errorFlag = False
+
+        try:
+            if "File Appended and Saved to " in self.__text:
+                self.__docpath = str(self.__text[27:])
+            elif "File Saved to " in self.__text:
+                self.__docpath = str(self.__text[14:])
+            else:
+                pass
+        except Exception as e:
+            if self.__type == "savedLarge":
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | PopupWrapped.py | Error = {e} | Error creating self.__docpath open file button not available")
+                self.__errorFlag = True
+            else:
+                pass
 
         self.__createWindow()
 
@@ -62,6 +80,17 @@ class PopupWrapped():
                        sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
             __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
+        elif self.__type == "savedLarge":
+            if self.__errorFlag:
+                __Line1 = [sg.Push(),
+                           sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
+                           sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
+                __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
+            else:
+                __Line1 = [sg.Push(),
+                           sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
+                           sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
+                __Line2 = [sg.Push(), sg.Button("Open File", size=(10, 1)), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "errorLarge":
             __Line1 = [sg.Push(),
                        sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
@@ -78,6 +107,20 @@ class PopupWrapped():
                        sg.Text(f"{self.__text}: {self.__error}", justification="center", key="-textField-"),
                        sg.Push()]
             __Line2 = [sg.Push(), sg.Ok(focus=True, size=(10, 1)), sg.Push()]
+        elif self.__type == "AuthError":
+            __Line1 = [sg.Push(),
+                       sg.Text(u'\u274C', font=("Helvetica", 20, "bold"), justification="center"),
+                       sg.Text(f"{self.__text}", justification="center", key="-textField-"),
+                       sg.Push()]
+            __Line2 = [sg.Push(), sg.Button(button_text="Open Generation Tool [Web Browser]"),
+                       sg.Ok(button_text="Return", focus=True, size=(10, 1)), sg.Push()]
+        elif self.__type == "versionWindow":
+            __Line1 = [sg.Push(),
+                       sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
+                       sg.Text(f"{self.__text}", justification="center", key="-textField-"),
+                       sg.Push()]
+            __Line2 = [sg.Push(), sg.Button(button_text="Download"),
+                       sg.Ok(button_text="Continue", focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "progress":
             __Line1 = [sg.Push(),
                        sg.Text(self.__text, justification="center", key="-textField-"), sg.Push()]
@@ -101,7 +144,7 @@ class PopupWrapped():
         self.__createLayout()
 
         if self.__type == "progress":
-            self.__windowObj = sg.Window(title=self.__type, layout=self.__layout, finalize=True,
+            self.__windowObj = sg.Window(title=self.__type.capitalize(), layout=self.__layout, finalize=True,
                                          modal=True,
                                          keep_on_top=True,
                                          disable_close=False,
@@ -111,6 +154,12 @@ class PopupWrapped():
             self.__windowObj = sg.Window(title="Notice", layout=self.__layout, finalize=True,
                                          modal=True,
                                          keep_on_top=True,
+                                         disable_close=False,
+                                         icon=ImageLoader("taskbar_icon.ico"))
+        elif self.__type == "savedLarge":
+            self.__windowObj = sg.Window(title="Notice", layout=self.__layout, finalize=True,
+                                         modal=True,
+                                         keep_on_top=False,
                                          disable_close=False,
                                          icon=ImageLoader("taskbar_icon.ico"))
         elif self.__type == "errorLarge":
@@ -125,8 +174,20 @@ class PopupWrapped():
                                          keep_on_top=True,
                                          disable_close=False,
                                          icon=ImageLoader("taskbar_icon.ico"))
+        elif self.__type == "AuthError":
+            self.__windowObj = sg.Window(title="Authentication Error", layout=self.__layout, finalize=True,
+                                         modal=True,
+                                         keep_on_top=True,
+                                         disable_close=False,
+                                         icon=ImageLoader("taskbar_icon.ico"))
+        elif self.__type == "versionWindow":
+            self.__windowObj = sg.Window(title="Update", layout=self.__layout, finalize=True,
+                                         modal=True,
+                                         keep_on_top=True,
+                                         disable_close=False,
+                                         icon=ImageLoader("taskbar_icon.ico"))
         else:
-            self.__windowObj = sg.Window(title=self.__type, layout=self.__layout, finalize=True,
+            self.__windowObj = sg.Window(title=self.__type.capitalize(), layout=self.__layout, finalize=True,
                                          modal=True,
                                          keep_on_top=True,
                                          disable_close=False,
@@ -134,12 +195,26 @@ class PopupWrapped():
                                          size=(290, 80))
 
         if self.__type != "progress" or self.__type.startswith("perm"):
+            print("Here")
             timer = 0
             while timer < 100:
                 event, values = self.__windowObj.read()
-                if event == "Ok" or event == sg.WIN_CLOSED:
+                print(event)
+                if event == "Ok" or event == sg.WIN_CLOSED or event == "Return" or event == "Continue":
                     break
-
+                elif event == "Open Generation Tool [Web Browser]":
+                    webbrowser.open('https://www.debugbear.com/basic-auth-header-generator', new=2, autoraise=True)
+                    pass
+                elif event == "Open File":
+                    threadFile = threading.Thread(target=self.openFile,
+                                                  daemon=False)
+                    threadFile.start()
+                    time.sleep(3)
+                    break
+                elif event == "Download":
+                    webbrowser.open('https://github.com/Kydoimos97/GardnerApiUtility/releases/latest', new=2,
+                                    autoraise=True)
+                    pass
                 time.sleep(0.1)
 
             if self.__type == "FatalErrorLarge":
@@ -148,7 +223,7 @@ class PopupWrapped():
                         f"start {Path(os.path.expandvars(r'%APPDATA%')).joinpath('GardnerUtil').joinpath('Logs')}")
                 except Exception as e:
                     print(
-                        f"PopupWrapped.py | Error = {e} | Log Folder not found please search manually for %APPDATA%\Roaming\GardnerUtil\Logs\n")
+                        f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | PopupWrapped.py | Error = {e} | Log Folder not found please search manually for %APPDATA%\Roaming\GardnerUtil\Logs\n")
 
             self.__windowObj.close()
 
@@ -212,3 +287,20 @@ class PopupWrapped():
             __key_to_update = event[len('update'):]
             self.__windowObj[__key_to_update].update(values[event])
             self.__windowObj.refresh()
+
+    def openFile(self):
+        """
+    The openFile function opens the file that is associated with the
+        document object.  It does this by calling os.system and passing it
+        self.__docpath as an argument.
+
+    Args:
+        self: Represent the instance of the object itself
+
+    Returns:
+        The filepath of the document
+
+    Doc Author:
+        Willem van der Schans, Trelent AI
+    """
+        os.system(self.__docpath)

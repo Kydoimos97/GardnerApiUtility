@@ -1,4 +1,6 @@
+import datetime
 import threading
+import time
 
 import pandas as pd
 import requests
@@ -6,6 +8,7 @@ from bs4 import *
 
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
+from API_Calls.Functions.Gui.BatchGui import confirmDialog
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
@@ -35,13 +38,22 @@ class realtorCom:
         self.dfZip = None
         self.uiString = "Files Saved to \n"
 
-        page_html = requests.get("https://www.realtor.com/research/data/").text
-        self.__page_html = BeautifulSoup(page_html, "html.parser")
-
-        self.__linkGetter()
-        self.__showUi()
-
-        PopupWrapped(text=self.uiString, windowType="noticeLarge")
+        eventReturn = confirmDialog()
+        if eventReturn == "Continue":
+            page_html = requests.get("https://www.realtor.com/research/data/").text
+            self.__page_html = BeautifulSoup(page_html, "html.parser")
+            startTime = datetime.datetime.now().replace(microsecond=0)
+            self.__linkGetter()
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Link Dictionary = {self.__idDict}")
+            self.__showUi()
+            PopupWrapped(text=self.uiString, windowType="noticeLarge")
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Data retrieved with in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
+        else:
+            print(
+                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | User Canceled Request")
+            pass
 
     def __showUi(self):
 

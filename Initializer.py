@@ -8,10 +8,11 @@ from pathlib import Path
 import PySimpleGUI as sg
 
 from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
+from API_Calls.Functions.DataFunc.versionChecker import versionChecker
 from API_Calls.Functions.ErrorFunc.Logger import logger
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
-from API_Calls.Sources.CFBP.Core import Cencus
+from API_Calls.Sources.CFBP.Core import CFBP
 from API_Calls.Sources.ConstructionMonitor.Core import ConstructionMonitorInit, \
     ConstructionMonitorMain
 from API_Calls.Sources.Realtor.Core import realtorCom
@@ -67,6 +68,8 @@ class initializer:
     Doc Author:
         Willem van der Schans, Trelent AI
     """
+        versionChecker()
+
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
                            finalize=True,
                            icon=ImageLoader("taskbar_icon.ico"))
@@ -75,27 +78,38 @@ class initializer:
             event, values = window.read()
 
             if event == "Construction Monitor":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Construction Monitor API Call-----------------")
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Construction Monitor API Call-----------------")
                 ConstructionMonitorMain(ConstructionMonitorInit())
-                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Construction Monitor API Call---------------------\n")
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Construction Monitor API Call---------------------\n")
             elif event == "Utah Real Estate":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Utah Real Estate API Call-----------------")
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Utah Real Estate API Call-----------------")
                 UtahRealEstateMain(UtahRealEstateInit())
-                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Utah Real Estate API Call---------------------\n")
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Utah Real Estate API Call---------------------\n")
             elif event == "Realtor.Com":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Realtor.com API Call-----------------")
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Realtor.com API Call-----------------")
                 realtorCom()
-                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Realtor.com API Call---------------------\n")
-            elif event == "Census":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Census API Call-----------------")
-                Cencus()
-                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Census API Call---------------------\n")
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Realtor.com API Call---------------------\n")
+            elif event == "CFPB Mortgage":
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating ffiec.cfpb API Call-----------------")
+                CFBP()
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing ffiec.cfpb API Call---------------------\n")
             elif event == "Authorization Utility":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Authorization Utility-----------------")
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Initiating Authorization Utility-----------------")
                 AuthUtil()
-                print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Authorization Utility---------------------\n")
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Closing Authorization Utility---------------------\n")
             elif event == "Open Data Folder":
-                print(f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Data Folder Opened-----------------")
+                print(
+                    f"\n{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | -------------Data Folder Opened-----------------")
                 try:
                     os.system(f"start {Path(os.path.expanduser('~/Documents')).joinpath('GardnerUtilData')}")
                 except:
@@ -152,7 +166,8 @@ class initializer:
         line5 = [[sg.Push(), sg.Button("Construction Monitor", size=(20, None)), sg.Push(),
                   sg.Button("Utah Real Estate", size=(20, None)), sg.Push()]]
 
-        line6 = [[sg.Push(), sg.Button("Realtor.Com", size=(20, None)), sg.Push(), sg.Button("Census", size=(20, None)),
+        line6 = [[sg.Push(), sg.Button("Realtor.Com", size=(20, None)), sg.Push(),
+                  sg.Button("CFPB Mortgage", size=(20, None)),
                   sg.Push()]]
 
         line8 = [sg.HSeparator()]
