@@ -84,7 +84,6 @@ class UtahRealEstateInit:
                     RESTError(993)
                     raise SystemExit(993)
             elif event == sg.WIN_CLOSED or event == "Quit":
-
                 break
 
         window.close()
@@ -133,10 +132,6 @@ class UtahRealEstateInit:
                           size=(20, 1)),
                  sg.CalendarButton("Select Date", format="%Y-%m-%d", key='-end_date-', target="-DateEnd-")]
 
-        line6 = [[sg.Text("Column Sub-Selection : ", size=(23, None), justification="Right"),
-                  sg.Checkbox(text="", default=True, key="-selectionFlag-", size=(15, 1)),
-                  sg.Push()]]
-
         line7 = [sg.HSeparator()]
 
         line8 = [sg.Push(),
@@ -155,7 +150,7 @@ class UtahRealEstateInit:
 
         line12 = [sg.Push(), sg.Submit(focus=True), sg.Quit(), sg.Push()]
 
-        layout = [line00, line0, line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11,
+        layout = [line00, line0, line1, line2, line3, line4, line5, line7, line8, line9, line10, line11,
                   line12]
 
         return layout
@@ -192,17 +187,7 @@ class UtahRealEstateInit:
         else:
             self.dateEnd = (date.today()).strftime("%Y-%m-%d")
 
-        if values['-selectionFlag-']:
-            self.select = "ListingKeyNumeric,StateOrProvince,CountyOrParish,City,PostalCity,PostalCode,SubdivisionName," \
-                          "StreetName,StreetNumber,ParcelNumber,UnitNumber,UnparsedAddress,MlsStatus,CloseDate," \
-                          "ClosePrice,ListPrice,OriginalListPrice,LeaseAmount,LivingArea,BuildingAreaTotal,LotSizeAcres," \
-                          "LotSizeSquareFeet,LotSizeArea,RoomsTotal,Stories,BedroomsTotal,MainLevelBedrooms,ParkingTotal," \
-                          "BasementFinished,AboveGradeFinishedArea,TaxAnnualAmount,YearBuilt,YearBuiltEffective," \
-                          "OnMarketDate,ListingContractDate,CumulativeDaysOnMarket,DaysOnMarket,PurchaseContractDate," \
-                          "AssociationFee,AssociationFeeFrequency,OccupantType,PropertySubType,PropertyType," \
-                          "StandardStatus,BuyerFinancing"
-        else:
-            self.select = None
+        self.select = None
 
         if values["-append_file-"] != "":
             self.append_file = str(values["-append_file-"])
@@ -300,6 +285,7 @@ class UtahRealEstateMain:
             else:
                 AuthUtil()
 
+
         self.__ParameterCreator()
 
         self.__getCountUI()
@@ -308,18 +294,23 @@ class UtahRealEstateMain:
 
         if self.__batches != 0:
             startTime = datetime.datetime.now().replace(microsecond=0)
-            BatchInputGui(self.__batches)
-            print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} Batches sent to server")
-            BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
-                                              ParameterDict=self.__parameterString,
-                                              HeaderDict=self.__headerDict,
-                                              BatchesNum=self.__batches,
-                                              Type="utah_real_estate")
-            BatchGuiObject.BatchGuiShow()
-            self.dataframe = BatchGuiObject.dataframe
-            print(
-                f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
-            FileSaver("ure", self.dataframe, self.__appendFile)
+            eventReturn = BatchInputGui(self.__batches, self.__record_val)
+            if eventReturn == "Continue":
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} batches sent to server")
+                BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
+                                                  ParameterDict=self.__parameterString,
+                                                  HeaderDict=self.__headerDict,
+                                                  BatchesNum=self.__batches,
+                                                  Type="utah_real_estate")
+                BatchGuiObject.BatchGuiShow()
+                self.dataframe = BatchGuiObject.dataframe
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
+                FileSaver("ure", self.dataframe, self.__appendFile)
+            else:
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} batches canceled by user")
         else:
             RESTError(994)
             raise SystemExit(994)
@@ -362,9 +353,6 @@ class UtahRealEstateMain:
             filter_string = f"$filter=CloseDate%20gt%20{__Source_dict['dateStart']}%20and%20CloseDate%20le%20{__Source_dict['dateEnd']}"
 
         filter_string = filter_string + f"%20and%20StandardStatus%20has%20Odata.Models.StandardStatus'{__Source_dict['StandardStatus']}'"
-
-        if __Source_dict["select"] is not None:
-            filter_string = filter_string + f'&$select={__Source_dict["select"]}'
 
         self.__parameterString = filter_string
 

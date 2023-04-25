@@ -1,11 +1,11 @@
 import copy
+import datetime
 import json
 import os
 import threading
 import time
 from datetime import date, timedelta
 from pathlib import Path
-import datetime
 
 import PySimpleGUI as sg
 import requests
@@ -298,18 +298,24 @@ class ConstructionMonitorMain:
         self.__batches = BatchCalculator(self.__record_val, self.__parameterDict)
         if self.__batches != 0:
             startTime = datetime.datetime.now().replace(microsecond=0)
-            BatchInputGui(self.__batches)
-            print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} Batches sent to server")
-            BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
-                                              ParameterDict=self.__parameterDict,
-                                              HeaderDict=self.__headerDict,
-                                              ColumnSelection=self.__columnSelection,
-                                              BatchesNum=self.__batches,
-                                              Type="construction_monitor")
-            BatchGuiObject.BatchGuiShow()
-            self.dataframe = BatchGuiObject.dataframe
-            print(f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
-            FileSaver("cm", self.dataframe, self.__appendFile)
+            eventReturn = BatchInputGui(self.__batches, self.__record_val)
+            if eventReturn == "Continue":
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} batches sent to server")
+                BatchGuiObject = BatchProgressGUI(RestDomain=self.__restDomain,
+                                                  ParameterDict=self.__parameterDict,
+                                                  HeaderDict=self.__headerDict,
+                                                  ColumnSelection=self.__columnSelection,
+                                                  BatchesNum=self.__batches,
+                                                  Type="construction_monitor")
+                BatchGuiObject.BatchGuiShow()
+                self.dataframe = BatchGuiObject.dataframe
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Dataframe retrieved with {self.dataframe.shape[0]} rows and {self.dataframe.shape[1]} columns in {time.strftime('%H:%M:%S', time.gmtime((datetime.datetime.now().replace(microsecond=0) - startTime).total_seconds()))}")
+                FileSaver("cm", self.dataframe, self.__appendFile)
+            else:
+                print(
+                    f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Request for {self.__batches} batches canceled by user")
         else:
             RESTError(994)
             raise SystemExit(994)
