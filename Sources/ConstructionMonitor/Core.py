@@ -392,9 +392,6 @@ class ConstructionMonitorMain:
                                          headers=self.__headerDict,
                                          json=__temp_param_dict)
 
-            if __count_resp.status_code != 200:
-                RESTError(__count_resp)
-
         except requests.exceptions.Timeout as e:
             print(e)
             RESTError(790)

@@ -227,6 +227,7 @@ class UtahRealEstateMain:
         self.filePath = Path(os.path.expanduser('~/Documents')).joinpath("GardnerUtilData").joinpath(
             "Security").joinpath("auth.json")
         self.key = None
+        self.__record_val = None
 
         try:
             self.mainFunc()
@@ -235,12 +236,6 @@ class UtahRealEstateMain:
             if "ListedOrModified" in str(getattr(e, 'message', repr(e))):
                 RESTError(1101)
                 print(e)
-                pass
-        except AttributeError as e:
-            if e is not None:
-                print(
-                    f"UtahRealEstate/Core.py | Error = {e} | Authentication Error | Please update keys in AuthUtil")
-                RESTError(401)
                 pass
             else:
                 pass
@@ -294,6 +289,9 @@ class UtahRealEstateMain:
             f"{datetime.datetime.today().strftime('%m-%d-%Y %H:%M:%S.%f')[:-3]} | Rest Domain = {self.__restDomain}")
 
         self.__getCountUI()
+
+        if self.__record_val is None:
+            self.__record_val = 0
 
         self.__batches = BatchCalculator(self.__record_val, None)
 
@@ -386,12 +384,6 @@ class UtahRealEstateMain:
             __count_resp = requests.get(f"{self.__restDomain}{self.__parameterString}&$count=true",
                                         headers=self.__headerDict)
 
-            if __count_resp.status_code != 200:
-                RESTError(__count_resp)
-                raise SystemExit(0)
-
-            self.__record_val = int(__count_resp.json()["@odata.count"])
-
         except requests.exceptions.Timeout as e:
             print(e)
             RESTError(790)
@@ -407,6 +399,8 @@ class UtahRealEstateMain:
             print(e)
             RESTError(405)
             raise SystemExit(405)
+
+        self.__record_val = int(__count_resp.json()["@odata.count"])
 
     def __getCountUI(self):
 
