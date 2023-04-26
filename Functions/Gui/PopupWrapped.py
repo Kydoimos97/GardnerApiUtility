@@ -195,11 +195,9 @@ class PopupWrapped():
                                          size=(290, 80))
 
         if self.__type != "progress" or self.__type.startswith("perm"):
-            print("Here")
             timer = 0
             while timer < 100:
                 event, values = self.__windowObj.read()
-                print(event)
                 if event == "Ok" or event == sg.WIN_CLOSED or event == "Return" or event == "Continue":
                     break
                 elif event == "Open Generation Tool [Web Browser]":
@@ -212,6 +210,7 @@ class PopupWrapped():
                     time.sleep(3)
                     break
                 elif event == "Download":
+                    # Todo Gitlab Update
                     webbrowser.open('https://github.com/Kydoimos97/GardnerApiUtility/releases/latest', new=2,
                                     autoraise=True)
                     pass
