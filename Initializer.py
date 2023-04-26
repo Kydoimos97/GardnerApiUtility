@@ -68,6 +68,7 @@ class initializer:
     Doc Author:
         Willem van der Schans, Trelent AI
     """
+        # Todo Gitlab Update
         versionChecker()
 
         window = sg.Window(text, layout, grab_anywhere=False, return_keyboard_events=True,
