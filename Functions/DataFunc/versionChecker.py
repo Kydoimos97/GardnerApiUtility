@@ -18,7 +18,7 @@ Returns:
 Doc Author:
     Willem van der Schans, Trelent AI
 """
-    current_version = "1.0.3"
+    current_version = "1.1.0"
     response = requests.get("https://api.github.com/repos/Kydoimos97/GardnerApiUtility/releases/latest")
     latest_version = response.json()['name']
     text_string = f"A new version is available \n" \
