@@ -17,7 +17,7 @@ class settings:
     settingDownloadSourceLink = 'https://github.com/Kydoimos97/GardnerApiUtility/releases/latest'
 
     # CFBP Source
-    #       This link downloads csv's immedately so minimal change is likely required in the source code
+    #       This link downloads csv's immediately so minimal change is likely required in the source code
     settingCFBPLink = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?"
 
     # ConstructionMonitor Source
