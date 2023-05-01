@@ -6,7 +6,7 @@
 class settings:
     #   Version Checker
     #       Update accordingly using semantic versioning: https://semver.org/
-    settingVersion = "1.1.1"
+    settingVersion = "1.2.0"
     #       Update in conjunction with settingDownloadSourceLink
     settingGithubApiUrl = "https://api.github.com/repos/Kydoimos97/GardnerApiUtility/releases/latest"
 
