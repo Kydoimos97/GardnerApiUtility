@@ -24,8 +24,8 @@ Doc Author:
     # Todo Gitlab Update
     response = requests.get(settings.settingGithubApiUrl)
     latest_version = response.json()['name']
-    text_string = f"A new version is available \n" \
-                  f"Running version: {current_version} \n" \
+    text_string = f"A different version is tagged as latest release \n \n" \
+                  f"Running version: {current_version}\n" \
                   f"Latest version: {latest_version}"
     print(text_string)
 

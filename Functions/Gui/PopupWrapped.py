@@ -117,8 +117,7 @@ class PopupWrapped():
                        sg.Ok(button_text="Return", focus=True, size=(10, 1)), sg.Push()]
         elif self.__type == "versionWindow":
             __Line1 = [sg.Push(),
-                       sg.Text(u'\u2713', font=("Helvetica", 20, "bold"), justification="center"),
-                       sg.Text(f"{self.__text}", justification="center", key="-textField-"),
+                       sg.Text(f"{self.__text}", justification="left", key="-textField-"),
                        sg.Push()]
             __Line2 = [sg.Push(), sg.Button(button_text="Download"),
                        sg.Ok(button_text="Continue", focus=True, size=(10, 1)), sg.Push()]
@@ -182,7 +181,7 @@ class PopupWrapped():
                                          disable_close=False,
                                          icon=ImageLoader("taskbar_icon.ico"))
         elif self.__type == "versionWindow":
-            self.__windowObj = sg.Window(title="Update", layout=self.__layout, finalize=True,
+            self.__windowObj = sg.Window(title="Update Notice", layout=self.__layout, finalize=True,
                                          modal=True,
                                          keep_on_top=True,
                                          disable_close=False,
