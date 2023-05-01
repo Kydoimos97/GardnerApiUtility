@@ -7,6 +7,7 @@ import requests
 from bs4 import *
 
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.DataFunc.Settings import settings
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.BatchGui import confirmDialog
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
@@ -40,7 +41,7 @@ class realtorCom:
 
         eventReturn = confirmDialog()
         if eventReturn == "Continue":
-            page_html = requests.get("https://www.realtor.com/research/data/").text
+            page_html = requests.get(settings.settingRealtorLink).text
             self.__page_html = BeautifulSoup(page_html, "html.parser")
             startTime = datetime.datetime.now().replace(microsecond=0)
             self.__linkGetter()

@@ -1,6 +1,7 @@
 #   This software is licensed under Apache License, Version 2.0, January 2004 as found on http://www.apache.org/licenses/
 import requests
 
+from API_Calls.Functions.DataFunc.Settings import settings
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
 
 
@@ -19,9 +20,9 @@ Doc Author:
     Willem van der Schans, Trelent AI
 """
     # Todo Gitlab Update
-    current_version = "1.1.1"
+    current_version = settings.settingVersion
     # Todo Gitlab Update
-    response = requests.get("https://api.github.com/repos/Kydoimos97/GardnerApiUtility/releases/latest")
+    response = requests.get(settings.settingGithubApiUrl)
     latest_version = response.json()['name']
     text_string = f"A new version is available \n" \
                   f"Running version: {current_version} \n" \

@@ -14,6 +14,7 @@ from cryptography.fernet import Fernet
 from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
 from API_Calls.Functions.DataFunc.BatchProcessing import BatchCalculator
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.DataFunc.Settings import settings
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.BatchGui import BatchInputGui
 from API_Calls.Functions.Gui.BatchProgressGUI import BatchProgressGUI
@@ -201,7 +202,7 @@ class ConstructionMonitorInit:
         else:
             self.dateEnd = date.today().strftime("%Y-%m-%d")
 
-        self.rest_domain = "https://api.constructionmonitor.com/v2/powersearch/?"
+        self.rest_domain = settings.settingCMRestDomain
 
         self.SourceInclude = None
 

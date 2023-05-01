@@ -8,6 +8,7 @@ from pathlib import Path
 
 import PySimpleGUI as sg
 
+from API_Calls.Functions.DataFunc.Settings import settings
 from API_Calls.Functions.Gui.ImageLoader import ImageLoader
 
 
@@ -201,7 +202,7 @@ class PopupWrapped():
                 if event == "Ok" or event == sg.WIN_CLOSED or event == "Return" or event == "Continue":
                     break
                 elif event == "Open Generation Tool [Web Browser]":
-                    webbrowser.open('https://www.debugbear.com/basic-auth-header-generator', new=2, autoraise=True)
+                    webbrowser.open(settings.settingGenerationToolLink, new=2, autoraise=True)
                     pass
                 elif event == "Open File":
                     threadFile = threading.Thread(target=self.openFile,
@@ -211,7 +212,7 @@ class PopupWrapped():
                     break
                 elif event == "Download":
                     # Todo Gitlab Update
-                    webbrowser.open('https://github.com/Kydoimos97/GardnerApiUtility/releases/latest', new=2,
+                    webbrowser.open(settings.settingDownloadSourceLink, new=2,
                                     autoraise=True)
                     pass
                 time.sleep(0.1)

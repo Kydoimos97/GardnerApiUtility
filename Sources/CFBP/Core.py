@@ -6,6 +6,7 @@ import pandas as pd
 import requests
 
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.DataFunc.Settings import settings
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.BatchGui import confirmDialog
 from API_Calls.Functions.Gui.PopupWrapped import PopupWrapped
@@ -98,7 +99,7 @@ class CFBP:
     """
         arg_dict_bu = locals()
 
-        link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?"
+        link = settings.settingCFBPLink
 
         if self.state_arg is None:
             self.state_arg = "UT"
@@ -106,7 +107,7 @@ class CFBP:
             pass
 
         if self.year_arg is None:
-            self.year_arg = str(date.today().year - 1)
+            self.year_arg = str(datetime.date.today().year - 1)
         else:
             pass
 
@@ -114,7 +115,7 @@ class CFBP:
 
         while not passFlag:
 
-            self.link = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv?" + f"states={self.state_arg}" + f"&years={self.year_arg}"
+            self.link = link + f"states={self.state_arg}" + f"&years={self.year_arg}"
 
             response = requests.get(self.link)
 

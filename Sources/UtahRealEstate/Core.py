@@ -14,6 +14,7 @@ from cryptography.fernet import Fernet
 from API_Calls.Functions.DataFunc.AuthUtil import AuthUtil
 from API_Calls.Functions.DataFunc.BatchProcessing import BatchCalculator
 from API_Calls.Functions.DataFunc.FileSaver import FileSaver
+from API_Calls.Functions.DataFunc.Settings import settings
 from API_Calls.Functions.ErrorFunc.RESTError import RESTError
 from API_Calls.Functions.Gui.BatchGui import BatchInputGui
 from API_Calls.Functions.Gui.BatchProgressGUI import BatchProgressGUI
@@ -221,7 +222,7 @@ class UtahRealEstateMain:
         self.__appendFile = None
         self.__dateStart = None
         self.__dateEnd = None
-        self.__restDomain = 'https://resoapi.utahrealestate.com/reso/odata/Property?'
+        self.__restDomain = settings.settingURERestDomain
         self.keyPath = Path(os.path.expandvars(r'%APPDATA%\GardnerUtil\Security')).joinpath(
             "3v45wfvw45wvc4f35.av3ra3rvavcr3w")
         self.filePath = Path(os.path.expanduser('~/Documents')).joinpath("GardnerUtilData").joinpath(
